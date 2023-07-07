@@ -12,10 +12,17 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text('Teste', style: Theme.of(context).textTheme.displayLarge),
+        title: Text(
+          'Area do Aluno',
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.displayLarge,
+        ),
       ),
-      body: Container(),
+      body: Column(
+        children: [],
+      ),
     );
   }
 }
