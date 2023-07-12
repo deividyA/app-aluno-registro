@@ -1,6 +1,6 @@
-import 'package:app_aluno_registro/Login.dart';
-import 'package:app_aluno_registro/home.dart';
-import 'package:app_aluno_registro/sign_up.dart';
+import 'package:app_aluno_registro/pages/Login.dart';
+import 'package:app_aluno_registro/pages/home.dart';
+import 'package:app_aluno_registro/pages/sign_up.dart';
 import 'package:flutter/material.dart';
 
 //first code to be executed(by default)
@@ -17,39 +17,49 @@ class MyApp extends StatelessWidget {
     //Global theme that can be used
     return MaterialApp(
       home: DefaultTabController(
+        initialIndex: 1,
         length: 3,
         child: Scaffold(
-          appBar: AppBar(
-            bottom: const TabBar(
-              labelColor: Color.fromARGB(255, 83, 127, 155),
-              tabs: [
-                Tab(icon: Icon(Icons.edit_square)),
-                Tab(icon: Icon(Icons.login)),
-                Tab(icon: Icon(Icons.home_work_rounded)),
-                //Tab(icon: Icon(Icons.build)),
-              ],
-            ),
-          ),
+          bottomNavigationBar: menu(),
           body: const TabBarView(
             children: [
               const SignUp(),
-              const Login(),
               const Home(),
+              const Login(),
             ],
           ),
         ),
       ),
       title: 'App Aluno Registro',
       theme: ThemeData(
-        scaffoldBackgroundColor: Color.fromARGB(236, 239, 241, 255),
         colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromARGB(2, 136, 209, 255)),
+          seedColor: Color.fromARGB(255, 72, 149, 212),
+          inversePrimary: Color.fromARGB(255, 72, 149, 212),
+        ),
         textTheme: const TextTheme(
-            displayLarge: TextStyle(color: Colors.white, fontSize: 30),
+            displayLarge: TextStyle(color: Colors.white, fontSize: 22),
             displayMedium: TextStyle(color: Colors.white),
             displaySmall: TextStyle(color: Colors.white),
-            bodyLarge: TextStyle(fontSize: 35)),
+            bodyLarge: TextStyle(fontSize: 12)),
         useMaterial3: true,
+      ),
+    );
+  }
+
+  Widget menu() {
+    return Container(
+      color: Color.fromARGB(255, 33, 150, 243),
+      child: TabBar(
+        labelColor: Colors.white,
+        unselectedLabelColor: Colors.white70,
+        indicatorSize: TabBarIndicatorSize.tab,
+        indicatorPadding: EdgeInsets.all(5.0),
+        indicatorColor: Colors.blue,
+        tabs: [
+          Tab(icon: Icon(Icons.edit_square)),
+          Tab(icon: Icon(Icons.home_work_rounded)),
+          Tab(icon: Icon(Icons.login)),
+        ],
       ),
     );
   }
