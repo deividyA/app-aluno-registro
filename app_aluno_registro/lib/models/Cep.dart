@@ -6,13 +6,15 @@ class Cep {
   String uf;
   String localidade;
   String bairro;
+  String ibge;
 
   Cep(
       {required this.cep,
       required this.uf,
       required this.localidade,
       required this.bairro,
-      required this.logradouro});
+      required this.logradouro,
+      required this.ibge});
 
   String toJson() => jsonEncode(toMap());
 
@@ -22,7 +24,8 @@ class Cep {
       'logradouro': logradouro,
       'uf': uf,
       'localidade': localidade,
-      'bairro': bairro
+      'bairro': bairro,
+      'ibge': ibge
     };
   }
 
@@ -37,6 +40,7 @@ class Cep {
         uf: map['uf'] ?? '',
         localidade: map['localidade'] ?? '',
         bairro: map['bairro'] ?? '',
-        logradouro: map['logradouro'] ?? '');
+        logradouro: map['logradouro'] ?? '',
+        ibge: map['ibge'] ?? '');
   }
 }

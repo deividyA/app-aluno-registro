@@ -1,3 +1,4 @@
+import 'package:app_aluno_registro/repositories/cep_repository.dart';
 import 'package:mobx/mobx.dart';
 
 part 'sign_up_store.g.dart';

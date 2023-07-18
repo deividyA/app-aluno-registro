@@ -3,7 +3,7 @@ import 'repositories_variables.dart';
 import 'package:http/http.dart';
 
 class CepRepository {
-  Future<Cep> buscarCep(String cep) async {
+  Future<Cep> buscarCep(String? cep) async {
     final resposta = await get(Uri.parse('$url_cep_api$cep/json/'));
     if (resposta.statusCode != 200) {
       throw Exception("Erro ao buscar os dados do Cep");

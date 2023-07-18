@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:app_aluno_registro/repositories/cep_repository.dart';
 import 'package:intl/intl.dart';
 import 'package:app_aluno_registro/repositories/ambiente_aluno_repository.dart';
 import 'package:app_aluno_registro/stores/sign_up_store.dart';
@@ -34,8 +35,19 @@ class _SignUpState extends State<SignUp> {
     print(lista_municipios);
   }
 
+  pegaDadosCep(cep) async {
+    var cep_api = CepRepository();
+    var cep_buscado = await cep_api.buscarCep(cep);
+    if (cep_buscado != null) {
+      return cep_buscado;
+    } else {
+      return 'Cep não encontrado';
+    }
+  }
+
   final mask_cpf = MaskTextInputFormatter(mask: '###.###.###-##');
   final mask_telefone = MaskTextInputFormatter(mask: "(##) #####-####");
+  final mask_cep = MaskTextInputFormatter(mask: '#####-###');
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final campo_numero_sere = TextEditingController();
@@ -66,6 +78,7 @@ class _SignUpState extends State<SignUp> {
   String? endereco;
   String? bairro;
   String? cep;
+  var dados_cep;
   List dados = [];
 
   getControllerValues() {
@@ -319,8 +332,18 @@ class _SignUpState extends State<SignUp> {
                 ),
                 Observer(
                   builder: (_) => TextField(
+                    inputFormatters: [mask_cep],
                     controller: campo_cep,
-                    onChanged: (value) => signUpStore.cep = value,
+                    onChanged: (value) async => {
+                      signUpStore.cep = mask_cep.getUnmaskedText(),
+                      if (signUpStore.cep!.length == 8)
+                        {
+                          dados_cep =
+                              await pegaDadosCep(mask_cep.getUnmaskedText()),
+                          campo_endereco.text = dados_cep.logradouro,
+                          campo_bairro.text = dados_cep.bairro
+                        }
+                    },
                     autofocus: true,
                     decoration: InputDecoration(
                         isDense: true,
@@ -330,7 +353,7 @@ class _SignUpState extends State<SignUp> {
                           borderRadius: BorderRadius.circular(5),
                         )),
                     maxLines: 1,
-                    maxLength: 8,
+                    maxLength: 9,
                   ),
                 ),
                 Observer(
