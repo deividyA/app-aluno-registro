@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'package:intl/intl.dart';
 import 'package:app_aluno_registro/repositories/ambiente_aluno_repository.dart';
 import 'package:app_aluno_registro/stores/sign_up_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:masked_text/masked_text.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -30,6 +33,9 @@ class _SignUpState extends State<SignUp> {
     lista_municipios = await ambiente_aluno.getMunicipios();
     print(lista_municipios);
   }
+
+  final mask_cpf = MaskTextInputFormatter(mask: '###.###.###-##');
+  final mask_telefone = MaskTextInputFormatter(mask: "(##) #####-####");
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final campo_numero_sere = TextEditingController();
@@ -96,7 +102,6 @@ class _SignUpState extends State<SignUp> {
     //   ];
     // });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -138,274 +143,252 @@ class _SignUpState extends State<SignUp> {
                     ),
                   ),
                 ),
-                TextFormField(
-                  controller: campo_nome,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                      isDense: true,
-                      hintText: "",
-                      label: Text("Nome"),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      )),
-                  maxLines: 1,
-                  maxLength: 60,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'O campo Nome é obrigatório.';
-                    }
-                    return null;
-                  },
-                ),
-                MaskedTextField(
-                  mask: "###.###.###-##",
-                  controller: campo_cpf,
-                  keyboardType: TextInputType.numberWithOptions(
-                      decimal: false, signed: false),
-                  autofocus: true,
-                  decoration: InputDecoration(
-                      isDense: true,
-                      label: Text("CPF"),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      )),
-                  maxLines: 1,
-                  maxLength: 14,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'O campo CPF é obrigatório.';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: campo_rg,
-                  keyboardType: TextInputType.number,
-                  autofocus: true,
-                  decoration: InputDecoration(
-                      isDense: true,
-                      label: Text("RG"),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      )),
-                  maxLines: 1,
-                  maxLength: 20,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'O campo RG é obrigatório.';
-                    }
-                    return null;
-                  },
-                ),
-                MaskedTextField(
-                  mask: "##/##/####",
-                  controller: campo_nascimento,
-                  keyboardType: TextInputType.datetime,
-                  autofocus: true,
-                  decoration: InputDecoration(
-                      isDense: true,
-                      label: Text("Data de Nascimento"),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      )),
-                  maxLines: 1,
-                  maxLength: 10,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'O campo Data de Nascimento é obrigatório.';
-                    }
-                    return null;
-                  },
-                ),
-                MaskedTextField(
-                  mask: "(##) #####-####",
-                  controller: campo_telefone,
-                  keyboardType: TextInputType.numberWithOptions(
-                      decimal: false, signed: false),
-                  autofocus: true,
-                  decoration: InputDecoration(
-                      isDense: true,
-                      label: Text("Telefone"),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      )),
-                  maxLines: 1,
-                  maxLength: 15,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'O campo Telefone é obrigatório.';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: campo_email,
-                  keyboardType: TextInputType.emailAddress,
-                  autofocus: true,
-                  decoration: InputDecoration(
-                      isDense: true,
-                      label: Text("E-mail"),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      )),
-                  maxLines: 1,
-                  maxLength: 60,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'O campo E-mail é obrigatório.';
-                    }
-                    return null;
-                  },
-                ),
-                DropdownButtonFormField<String>(
-                  value: campo_sexo,
-                  onChanged: (newValue) {
-                    setState(() {
-                      campo_sexo = newValue;
-                    });
-                  },
-                  decoration: InputDecoration(
-                    isDense: true,
-                    labelText: 'Sexo',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
+                Observer(
+                  builder: (_) => TextField(
+                    controller: campo_nome,
+                    keyboardType: TextInputType.name,
+                    onChanged: (value) => signUpStore.nome = value,
+                    decoration: InputDecoration(
+                        isDense: true,
+                        labelText: "Nome",
+                        errorText: signUpStore.validateNome(),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        )),
+                    maxLines: 1,
+                    maxLength: 60,
                   ),
-                  items: const [
-                    DropdownMenuItem<String>(
-                      value: "M",
-                      child: Text("Masculino"),
-                    ),
-                    DropdownMenuItem<String>(
-                      value: "F",
-                      child: Text("Feminino"),
-                    ),
-                  ],
-                  validator: (value) {
-                    if (value == null) {
-                      return 'O campo Município é obrigatório.';
-                    }
-                    return null;
-                  },
                 ),
-                TextFormField(
-                  controller: campo_pai,
-                  autofocus: true,
-                  decoration: InputDecoration(
+                Observer(
+                  builder: (_) => TextField(
+                    controller: campo_cpf,
+                    keyboardType: TextInputType.numberWithOptions(
+                        decimal: false, signed: false),
+                    autofocus: true,
+                    inputFormatters: [mask_cpf],
+                    onChanged: (value) =>
+                        signUpStore.cpf = mask_cpf.getUnmaskedText(),
+                    decoration: InputDecoration(
+                        isDense: true,
+                        label: Text("CPF"),
+                        errorText: signUpStore.validateCpf(),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        )),
+                    maxLines: 1,
+                    maxLength: 14,
+                  ),
+                ),
+                Observer(
+                  builder: (_) => TextField(
+                    controller: campo_rg,
+                    keyboardType: TextInputType.number,
+                    autofocus: true,
+                    onChanged: (value) => signUpStore.rg = value,
+                    decoration: InputDecoration(
+                        isDense: true,
+                        label: Text("RG"),
+                        errorText: signUpStore.validateRg(),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        )),
+                    maxLines: 1,
+                    maxLength: 20,
+                  ),
+                ),
+                Observer(
+                  builder: (_) => MaskedTextField(
+                    mask: "##/##/####",
+                    controller: campo_nascimento,
+                    keyboardType: TextInputType.datetime,
+                    onChanged: (value) => value.length == 10
+                        ? signUpStore.dataNascimento =
+                            DateFormat('dd/MM/yyyy').parse(value)
+                        : signUpStore.dataNascimento = null,
+                    autofocus: true,
+                    decoration: InputDecoration(
+                        isDense: true,
+                        label: Text("Data de Nascimento"),
+                        errorText: signUpStore.validateDataNascimento(),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        )),
+                    maxLines: 1,
+                    maxLength: 10,
+                  ),
+                ),
+                Observer(
+                  builder: (_) => TextField(
+                    controller: campo_telefone,
+                    inputFormatters: [mask_telefone],
+                    onChanged: (value) =>
+                        signUpStore.telefone = mask_telefone.getUnmaskedText(),
+                    keyboardType: TextInputType.numberWithOptions(
+                        decimal: false, signed: false),
+                    autofocus: true,
+                    decoration: InputDecoration(
+                        isDense: true,
+                        label: Text("Telefone"),
+                        errorText: signUpStore.validateTelefone(),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        )),
+                    maxLines: 1,
+                    maxLength: 15,
+                  ),
+                ),
+                Observer(
+                  builder: (_) => TextField(
+                    controller: campo_email,
+                    keyboardType: TextInputType.emailAddress,
+                    onChanged: (value) => signUpStore.email = value,
+                    autofocus: true,
+                    decoration: InputDecoration(
+                        isDense: true,
+                        label: Text("E-mail"),
+                        errorText: signUpStore.validateEmail(),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        )),
+                    maxLines: 1,
+                    maxLength: 60,
+                  ),
+                ),
+                Observer(
+                  builder: (_) => DropdownButtonFormField<String>(
+                    value: campo_sexo,
+                    onChanged: (newValue) {
+                      setState(() {
+                        campo_sexo = newValue;
+                      });
+                      signUpStore.sexo = newValue;
+                    },
+                    decoration: InputDecoration(
                       isDense: true,
-                      label: Text("Pai (ou responsável)"),
+                      labelText: 'Sexo',
+                      errorText: signUpStore.validateSexo(),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
-                      )),
-                  maxLines: 1,
-                  maxLength: 60,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'O campo Pai é obrigatório.';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: campo_mae,
-                  autofocus: true,
-                  decoration: InputDecoration(
-                      isDense: true,
-                      label: Text(
-                        "Mãe (ou responsável)",
                       ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      )),
-                  maxLines: 1,
-                  maxLength: 60,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'O campo Mãe é obrigatório.';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: campo_cep,
-                  autofocus: true,
-                  decoration: InputDecoration(
-                      isDense: true,
-                      label: Text("CEP"),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      )),
-                  maxLines: 1,
-                  maxLength: 8,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'O campo CEP é obrigatório.';
-                    }
-                    return null;
-                  },
-                ),
-                DropdownButtonFormField<String>(
-                  value: campo_municipio,
-                  onChanged: (newValue) {
-                    setState(() {
-                      campo_municipio = newValue;
-                    });
-                  },
-                  decoration: InputDecoration(
-                    isDense: true,
-                    labelText: 'Município',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
                     ),
+                    items: const [
+                      DropdownMenuItem<String>(
+                        value: "M",
+                        child: Text("Masculino"),
+                      ),
+                      DropdownMenuItem<String>(
+                        value: "F",
+                        child: Text("Feminino"),
+                      ),
+                    ],
                   ),
-                  items: lista_municipios?.map((municipio) {
-                    return DropdownMenuItem<String>(
-                      value: municipio['municipio_codigo_ibge'],
-                      child: Text(municipio['nome']),
-                    );
-                  }).toList(),
-                  validator: (value) {
-                    if (value == null) {
-                      return 'O campo Município é obrigatório.';
-                    }
-                    return null;
-                  },
                 ),
-                TextFormField(
-                  controller: campo_endereco,
-                  autofocus: true,
-                  decoration: InputDecoration(
+                Observer(
+                  builder: (_) => TextField(
+                    controller: campo_pai,
+                    onChanged: (value) => signUpStore.pai = value,
+                    autofocus: true,
+                    decoration: InputDecoration(
+                        isDense: true,
+                        errorText: signUpStore.validatePai(),
+                        label: Text("Pai (ou responsável)"),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        )),
+                    maxLines: 1,
+                    maxLength: 60,
+                  ),
+                ),
+                Observer(
+                  builder: (_) => TextField(
+                    controller: campo_mae,
+                    onChanged: (value) => signUpStore.mae = value,
+                    autofocus: true,
+                    decoration: InputDecoration(
+                        isDense: true,
+                        errorText: signUpStore.validateMae(),
+                        label: Text(
+                          "Mãe (ou responsável)",
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        )),
+                    maxLines: 1,
+                    maxLength: 60,
+                  ),
+                ),
+                Observer(
+                  builder: (_) => TextField(
+                    controller: campo_cep,
+                    onChanged: (value) => signUpStore.cep = value,
+                    autofocus: true,
+                    decoration: InputDecoration(
+                        isDense: true,
+                        label: Text("CEP"),
+                        errorText: signUpStore.validateCep(),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        )),
+                    maxLines: 1,
+                    maxLength: 8,
+                  ),
+                ),
+                Observer(
+                  builder: (_) => DropdownButtonFormField<String>(
+                    value: campo_municipio,
+                    onChanged: (newValue) {
+                      setState(() {
+                        campo_municipio = newValue;
+                      });
+                      signUpStore.municipio = newValue;
+                    },
+                    decoration: InputDecoration(
                       isDense: true,
-                      label: Text("Endereço"),
+                      labelText: 'Município',
+                      errorText: signUpStore.validateMunicipio(),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
-                      )),
-                  maxLines: 1,
-                  maxLength: 60,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'O campo Endereço é obrigatório.';
-                    }
-                    return null;
-                  },
+                      ),
+                    ),
+                    items: lista_municipios?.map((municipio) {
+                      return DropdownMenuItem<String>(
+                        value: municipio['municipio_codigo_ibge'],
+                        child: Text(municipio['nome']),
+                      );
+                    }).toList(),
+                  ),
                 ),
-                TextFormField(
-                  controller: campo_bairro,
-                  autofocus: true,
-                  decoration: InputDecoration(
-                      isDense: true,
-                      label: Text("Bairro"),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      )),
-                  maxLines: 1,
-                  maxLength: 60,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'O campo Bairro é obrigatório.';
-                    }
-                    return null;
-                  },
+                Observer(
+                  builder: (_) => TextField(
+                    controller: campo_endereco,
+                    autofocus: true,
+                    onChanged: (value) => signUpStore.endereco = value,
+                    decoration: InputDecoration(
+                        isDense: true,
+                        errorText: signUpStore.validateEndereco(),
+                        label: Text("Endereço"),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        )),
+                    maxLines: 1,
+                    maxLength: 60,
+                  ),
+                ),
+                Observer(
+                  builder: (_) => TextField(
+                    controller: campo_bairro,
+                    autofocus: true,
+                    onChanged: (value) => signUpStore.bairro = value,
+                    decoration: InputDecoration(
+                        isDense: true,
+                        label: Text("Bairro"),
+                        errorText: signUpStore.validateBairro(),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        )),
+                    maxLines: 1,
+                    maxLength: 60,
+                  ),
                 ),
                 ElevatedButton(
                   onPressed: () {

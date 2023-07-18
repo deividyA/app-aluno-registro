@@ -67,7 +67,6 @@ abstract class _SignUpStore with Store {
 
   void setNumeroSere(String value) {
     numeroSere = double.tryParse(value);
-    print(numeroSere);
   }
 
   @action
@@ -82,92 +81,105 @@ abstract class _SignUpStore with Store {
     return null;
   }
 
-  String? validateNome(String? value) {
-    if (value == null || value.isEmpty) {
+  String? validateNome() {
+    if (nome == null || nome!.isEmpty) {
       return 'O campo Nome é obrigatório.';
     }
     return null;
   }
 
-  String? validateCpf(String? value) {
-    if (value == null || value.isEmpty) {
+  String? validateCpf() {
+    if (cpf == null || cpf!.isEmpty) {
       return 'O campo CPF é obrigatório.';
+    } else if (cpf!.length < 11) {
+      return 'CPF precisa ter 14 caracteres';
     }
     return null;
   }
 
-  String? validateRg(String? value) {
-    if (value == null || value.isEmpty) {
+  String? validateRg() {
+    if (rg == null || rg!.isEmpty) {
       return 'O campo RG é obrigatório.';
     }
     return null;
   }
 
-  String? validateDataNascimento(DateTime? value) {
-    if (value == null) {
+  String? validateDataNascimento() {
+    if (dataNascimento == null) {
       return 'O campo Data de Nascimento é obrigatório.';
     }
+
     return null;
   }
 
-  String? validateTelefone(String? value) {
-    if (value == null || value.isEmpty) {
+  String? validateTelefone() {
+    if (telefone == null || telefone!.isEmpty) {
       return 'O campo Telefone é obrigatório.';
     }
-    return null;
-  }
-
-  String? validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'O campo E-mail é obrigatório.';
+    if (telefone != null) {
+      print(telefone);
     }
     return null;
   }
 
-  String? validateSexo(String? value) {
-    if (value == null) {
+  String? validateEmail() {
+    if (email == null || email!.isEmpty) {
+      return 'O campo E-mail é obrigatório.';
+    }
+    final emailRegExp = RegExp(
+      r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$',
+    );
+    if (!emailRegExp.hasMatch(email!)) {
+      return 'Utilize um E-mail válido.';
+    }
+
+    return null;
+  }
+
+  String? validateSexo() {
+    if (sexo == null) {
       return 'O campo Sexo é obrigatório.';
     }
     return null;
   }
 
-  String? validatePai(String? value) {
-    if (value == null || value.isEmpty) {
+  String? validatePai() {
+    if (pai == null || pai!.isEmpty) {
       return 'O campo Pai é obrigatório.';
     }
     return null;
   }
 
-  String? validateMae(String? value) {
-    if (value == null || value.isEmpty) {
+  String? validateMae() {
+    if (mae == null || mae!.isEmpty) {
       return 'O campo Mãe é obrigatório.';
     }
     return null;
   }
 
-  String? validateCep(String? value) {
-    if (value == null || value.isEmpty) {
+  String? validateCep() {
+    if (cep == null || cep!.isEmpty) {
       return 'O campo CEP é obrigatório.';
     }
     return null;
   }
 
-  String? validateMunicipio(String? value) {
-    if (value == null) {
+  String? validateMunicipio() {
+    if (municipio == null) {
       return 'O campo Município é obrigatório.';
     }
     return null;
   }
 
-  String? validateEndereco(String? value) {
-    if (value == null || value.isEmpty) {
+  String? validateEndereco() {
+    if (endereco == null || endereco!.isEmpty) {
       return 'O campo Endereço é obrigatório.';
     }
     return null;
   }
 
-  String? validateBairro(String? value) {
-    if (value == null || value.isEmpty) {
+  String? validateBairro() {
+    if (bairro == null || bairro!.isEmpty) {
       return 'O campo Bairro é obrigatório.';
     }
     return null;
