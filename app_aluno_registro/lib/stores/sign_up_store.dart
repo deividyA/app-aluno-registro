@@ -51,19 +51,23 @@ abstract class _SignUpStore with Store {
   @computed
   bool get isValid {
     return numeroSere != null &&
-        nome != null &&
-        cpf != null &&
-        rg != null &&
+        isNotEmpty(nome) &&
+        isNotEmpty(cpf) &&
+        isNotEmpty(rg) &&
         dataNascimento != null &&
-        telefone != null &&
-        email != null &&
-        sexo != null &&
-        pai != null &&
-        mae != null &&
-        cep != null &&
-        municipio != null &&
-        endereco != null &&
-        bairro != null;
+        isNotEmpty(telefone) &&
+        isNotEmpty(email) &&
+        isNotEmpty(sexo) &&
+        isNotEmpty(pai) &&
+        isNotEmpty(mae) &&
+        isNotEmpty(cep) &&
+        isNotEmpty(municipio) &&
+        isNotEmpty(endereco) &&
+        isNotEmpty(bairro);
+  }
+
+  bool isNotEmpty(String? value) {
+    return value != null && value.isNotEmpty;
   }
 
   void setNumeroSere(String value) {
