@@ -533,7 +533,26 @@ class _SignUpState extends State<SignUp> {
                   onPressed: () {
                     getControllerValues();
                   },
-                  child: const Text('Botao'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.white, // White background color
+                    onPrimary: Colors.blue, // Blue text color
+                    side: BorderSide(
+                        width: 2, color: Colors.blue), // Blue borders
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8), // Rounded corners
+                    ),
+                  ),
+                  child: SizedBox(
+                    width: double
+                        .infinity, // Button expands to the full width of its parent
+                    child: Center(
+                      child: Text(
+                        'Cadastre-se',
+                        style: TextStyle(
+                            fontSize: 17, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
                 )
               ],
             ),
