@@ -1,5 +1,6 @@
 import 'package:app_aluno_registro/repositories/cep_repository.dart';
 import 'package:mobx/mobx.dart';
+import 'package:cpf_cnpj_validator/cpf_validator.dart';
 
 part 'sign_up_store.g.dart';
 
@@ -19,7 +20,7 @@ abstract class _SignUpStore with Store {
   String? rg;
 
   @observable
-  DateTime? dataNascimento;
+  String? dataNascimento;
 
   @observable
   String? telefone;
@@ -48,6 +49,9 @@ abstract class _SignUpStore with Store {
   @observable
   String? bairro;
 
+  @observable
+  String? senha;
+
   @computed
   bool get isValid {
     return numeroSere != null &&
@@ -63,7 +67,8 @@ abstract class _SignUpStore with Store {
         isNotEmpty(cep) &&
         isNotEmpty(municipio) &&
         isNotEmpty(endereco) &&
-        isNotEmpty(bairro);
+        isNotEmpty(bairro) &&
+        isNotEmpty(senha);
   }
 
   bool isNotEmpty(String? value) {
@@ -86,6 +91,13 @@ abstract class _SignUpStore with Store {
     return null;
   }
 
+  String? validateSenha() {
+    if (senha == null) {
+      return 'O campo senha é obrigatório.';
+    }
+    return null;
+  }
+
   String? validateNome() {
     if (nome == null || nome!.isEmpty) {
       return 'O campo Nome é obrigatório.';
@@ -98,7 +110,10 @@ abstract class _SignUpStore with Store {
       return 'O campo CPF é obrigatório.';
     } else if (cpf!.length < 11) {
       return 'CPF precisa ter 14 caracteres';
+    } else if (!CPFValidator.isValid(cpf)) {
+      return 'CPF inválido';
     }
+
     return null;
   }
 

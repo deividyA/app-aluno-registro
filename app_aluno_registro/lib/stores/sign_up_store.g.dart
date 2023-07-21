@@ -81,13 +81,13 @@ mixin _$SignUpStore on _SignUpStore, Store {
       Atom(name: '_SignUpStore.dataNascimento', context: context);
 
   @override
-  DateTime? get dataNascimento {
+  String? get dataNascimento {
     _$dataNascimentoAtom.reportRead();
     return super.dataNascimento;
   }
 
   @override
-  set dataNascimento(DateTime? value) {
+  set dataNascimento(String? value) {
     _$dataNascimentoAtom.reportWrite(value, super.dataNascimento, () {
       super.dataNascimento = value;
     });
@@ -231,6 +231,21 @@ mixin _$SignUpStore on _SignUpStore, Store {
     });
   }
 
+  late final _$senhaAtom = Atom(name: '_SignUpStore.senha', context: context);
+
+  @override
+  String? get senha {
+    _$senhaAtom.reportRead();
+    return super.senha;
+  }
+
+  @override
+  set senha(String? value) {
+    _$senhaAtom.reportWrite(value, super.senha, () {
+      super.senha = value;
+    });
+  }
+
   late final _$_SignUpStoreActionController =
       ActionController(name: '_SignUpStore', context: context);
 
@@ -262,6 +277,7 @@ cep: ${cep},
 municipio: ${municipio},
 endereco: ${endereco},
 bairro: ${bairro},
+senha: ${senha},
 isValid: ${isValid}
     ''';
   }

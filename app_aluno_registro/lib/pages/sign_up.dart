@@ -62,9 +62,12 @@ class _SignUpState extends State<SignUp> {
   bool foi_tocado_endereco = false;
   bool foi_tocado_bairro = false;
   bool foi_tocado_cep = false;
+  bool foi_tocado_senha = false;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final campo_numero_sere = TextEditingController();
+  final campo_senha = TextEditingController();
+  bool showPassword = false;
   final campo_nome = TextEditingController();
   final campo_cpf = TextEditingController();
   final campo_rg = TextEditingController();
@@ -80,28 +83,113 @@ class _SignUpState extends State<SignUp> {
   final campo_cep = TextEditingController();
 
   var dados_cep;
-  List dados = [];
+  var dados;
 
-  getControllerValues() {
+  getControllerValues() async {
     if (signUpStore.isValid) {
-      dados = [
-        signUpStore.numeroSere,
-        signUpStore.nome,
-        signUpStore.cpf,
-        signUpStore.rg,
-        signUpStore.dataNascimento,
-        signUpStore.telefone,
-        signUpStore.email,
-        signUpStore.sexo,
-        signUpStore.pai,
-        signUpStore.mae,
-        signUpStore.municipio,
-        signUpStore.endereco,
-        signUpStore.bairro,
-        signUpStore.cep
-      ];
-      print(dados);
+      dados = {
+        'numero_sere': signUpStore.numeroSere,
+        'senha': signUpStore.senha,
+        'nome': signUpStore.nome,
+        'nome_razao_social': signUpStore.nome,
+        'cpf': signUpStore.cpf,
+        'rg': signUpStore.rg,
+        'data_nascimento': signUpStore.dataNascimento,
+        'telefone': signUpStore.telefone,
+        'email': signUpStore.email,
+        'sexo_fk': signUpStore.sexo,
+        'pai': signUpStore.pai,
+        'mae': signUpStore.mae,
+        'municipio_codigo_ibge': signUpStore.municipio,
+        'endereco': signUpStore.endereco,
+        'bairro': signUpStore.bairro,
+        'cep': signUpStore.cep,
+      };
+      final response = await ambiente_aluno.cadastraAluno(dados);
+
+      List<dynamic> errorMessages = [];
+
+      // Check the response status and show the success/error pop-up accordingly
+      if (response != null) {
+        response.forEach((key, value) {
+          errorMessages.addAll(value);
+        });
+        showDialog(
+          context: context,
+          builder: (context) => Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color.fromARGB(255, 244, 67, 54)
+                        .withOpacity(1.0), // 100% red
+
+                    Color.fromARGB(255, 247, 137, 129).withOpacity(1.0),
+                  ],
+                ),
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 20.0),
+                    child: Center(
+                      child: Text(
+                        'Response',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      errorMessages.join(', ').toString(),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          // Add any additional actions here if needed
+                        },
+                        child: Text(
+                          'OK',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 16),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      }
     } else {
+      foi_tocado_senha = true;
       foi_tocado_nome = true;
       foi_tocado_cpf = true;
       foi_tocado_rg = true;
@@ -160,6 +248,49 @@ class _SignUpState extends State<SignUp> {
                     );
                   }),
                 ),
+                Observer(builder: (_) {
+                  return TextField(
+                    controller: campo_senha,
+                    keyboardType: TextInputType.visiblePassword,
+                    onChanged: (value) => signUpStore.senha = value,
+                    onTap: () => {
+                      foi_tocado_senha == false
+                          ? setState(() {
+                              foi_tocado_senha = true;
+                            })
+                          : '',
+                    },
+                    obscureText:
+                        !showPassword, // Set the obscureText based on showPassword.
+                    decoration: InputDecoration(
+                      isDense: true,
+                      labelText: "Senha",
+                      errorText:
+                          foi_tocado_senha ? signUpStore.validateSenha() : null,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      // Add the IconButton to the suffixIcon property.
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            showPassword =
+                                !showPassword; // Toggle the showPassword state.
+                          });
+                        },
+                        icon: Icon(
+                          showPassword
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: showPassword ? Colors.lightBlue : Colors.grey,
+                          // Use light blue color when the password is visible (enabled).
+                        ),
+                      ),
+                    ),
+                    maxLines: 1,
+                    maxLength: 60,
+                  );
+                }),
                 Observer(builder: (_) {
                   return TextField(
                     controller: campo_nome,
@@ -241,8 +372,8 @@ class _SignUpState extends State<SignUp> {
                     controller: campo_nascimento,
                     keyboardType: TextInputType.datetime,
                     onChanged: (value) => value.length == 10
-                        ? signUpStore.dataNascimento =
-                            DateFormat('dd/MM/yyyy').parse(value)
+                        ? signUpStore.dataNascimento = DateFormat('yyyy-MM-dd')
+                            .format(DateFormat('dd/MM/yyyy').parse(value))
                         : signUpStore.dataNascimento = null,
                     onTap: () => {
                       foi_tocado_nascimento == false
@@ -422,6 +553,9 @@ class _SignUpState extends State<SignUp> {
                                   index_municipio_cep >= 0
                               ? setState(() {})
                               : null,
+                          signUpStore.municipio =
+                              lista_municipios![index_municipio_cep]
+                                  ['municipio_codigo_ibge']
                         }
                     },
                     onTap: () => {
@@ -534,10 +668,8 @@ class _SignUpState extends State<SignUp> {
                     getControllerValues();
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.white, // White background color
-                    onPrimary: Colors.blue, // Blue text color
-                    side: BorderSide(
-                        width: 2, color: Colors.blue), // Blue borders
+                    primary: Theme.of(context).colorScheme.inversePrimary,
+                    onPrimary: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8), // Rounded corners
                     ),
