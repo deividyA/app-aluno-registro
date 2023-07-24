@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flip_card/flip_card.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -8,6 +9,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  GlobalKey<FlipCardState> _cardKey = GlobalKey<FlipCardState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,8 +23,70 @@ class _HomeState extends State<Home> {
           style: Theme.of(context).textTheme.displayLarge,
         ),
       ),
-      body: Column(
-        children: [],
+      body: Center(
+        child: GestureDetector(
+          onHorizontalDragUpdate: (details) {
+            if (details.delta.dx > 0) {
+              // Swipe to the right
+              _cardKey.currentState!.toggleCard();
+            } else if (details.delta.dx < 0) {
+              // Swipe to the left
+              _cardKey.currentState!.toggleCard();
+            }
+          },
+          child: FlipCard(
+            key: _cardKey,
+            direction: FlipDirection.HORIZONTAL,
+            front: CardFront(),
+            back: CardBack(),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CardFront extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: EdgeInsets.all(20.0),
+      elevation: 4.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(
+          'Front Side',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CardBack extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: EdgeInsets.all(20.0),
+      elevation: 4.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(
+          'Back Side',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     );
   }

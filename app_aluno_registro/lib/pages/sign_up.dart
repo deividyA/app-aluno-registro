@@ -118,7 +118,7 @@ class _SignUpState extends State<SignUp> {
           context: context,
           builder: (context) => Dialog(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
+              borderRadius: BorderRadius.circular(15.0),
             ),
             child: Container(
               decoration: BoxDecoration(
@@ -128,33 +128,53 @@ class _SignUpState extends State<SignUp> {
                   colors: [
                     Color.fromARGB(255, 244, 67, 54)
                         .withOpacity(1.0), // 100% red
-
-                    Color.fromARGB(255, 247, 137, 129).withOpacity(1.0),
+                    Color.fromARGB(255, 250, 126, 117).withOpacity(1.0),
                   ],
                 ),
                 color: Colors.red,
-                borderRadius: BorderRadius.circular(10.0),
+                borderRadius: BorderRadius.circular(15.0),
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                // Align title to the left
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 20.0),
-                    child: Center(
-                      child: Text(
-                        'Response',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          decoration: TextDecoration.underline,
-                        ),
+                  Row(
+                      mainAxisAlignment:
+                          MainAxisAlignment.end, // Align icon to the right
+                      children: [
+                        Padding(
+                            padding: EdgeInsets.only(right: 5, top: 5),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Icon(
+                                Icons.close,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                            ))
+                      ]),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Erro!!',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.only(left: 20, bottom: 20),
                     child: Text(
                       errorMessages.join(', ').toString(),
                       style: TextStyle(
@@ -162,25 +182,6 @@ class _SignUpState extends State<SignUp> {
                         fontSize: 16,
                       ),
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          // Add any additional actions here if needed
-                        },
-                        child: Text(
-                          'OK',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 16),
-                    ],
                   ),
                 ],
               ),

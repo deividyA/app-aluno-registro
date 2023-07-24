@@ -41,6 +41,7 @@ dependencies:
   flutter_mobx: ^2.0.6+5
   intl: ^0.18.1
   cpf_cnpj_validator: 2.0.0-nullsafety
+  flip_card: ^0.7.0
   
   
   
