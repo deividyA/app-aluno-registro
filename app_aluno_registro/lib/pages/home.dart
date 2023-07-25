@@ -9,7 +9,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  GlobalKey<FlipCardState> _cardKey = GlobalKey<FlipCardState>();
+  final GlobalKey<FlipCardState> _cardKey = GlobalKey<FlipCardState>();
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +37,8 @@ class _HomeState extends State<Home> {
           child: FlipCard(
             key: _cardKey,
             direction: FlipDirection.HORIZONTAL,
-            front: CardFront(),
-            back: CardBack(),
+            front: const CardFront(),
+            back: const CardBack(),
           ),
         ),
       ),
@@ -47,16 +47,18 @@ class _HomeState extends State<Home> {
 }
 
 class CardFront extends StatelessWidget {
+  const CardFront({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(20.0),
+      margin: const EdgeInsets.all(20.0),
       elevation: 4.0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
+      child: const Padding(
+        padding: EdgeInsets.all(16.0),
         child: Text(
           'Front Side',
           style: TextStyle(
@@ -70,16 +72,18 @@ class CardFront extends StatelessWidget {
 }
 
 class CardBack extends StatelessWidget {
+  const CardBack({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(20.0),
+      margin: const EdgeInsets.all(20.0),
       elevation: 4.0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
+      child: const Padding(
+        padding: EdgeInsets.all(16.0),
         child: Text(
           'Back Side',
           style: TextStyle(

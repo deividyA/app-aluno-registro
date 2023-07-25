@@ -1,9 +1,9 @@
-import 'package:app_aluno_registro/repositories/cep_repository.dart';
 import 'package:mobx/mobx.dart';
 import 'package:cpf_cnpj_validator/cpf_validator.dart';
 
 part 'sign_up_store.g.dart';
 
+// ignore: library_private_types_in_public_api
 class SignUpStore = _SignUpStore with _$SignUpStore;
 
 abstract class _SignUpStore with Store {
@@ -136,9 +136,7 @@ abstract class _SignUpStore with Store {
     if (telefone == null || telefone!.isEmpty) {
       return 'O campo Telefone é obrigatório.';
     }
-    if (telefone != null) {
-      print(telefone);
-    }
+
     return null;
   }
 

@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names, file_names
+
 import 'dart:convert';
 
 class Carteira {
@@ -9,12 +11,12 @@ class Carteira {
   DateTime data_emissao;
 
   Carteira(
-      {required BigInt this.escola_fk,
-      required BigInt this.aluno_fk,
-      required BigInt this.serie_fk,
-      required BigInt this.turno_fk,
-      required bool this.ativa,
-      required DateTime this.data_emissao});
+      {required this.escola_fk,
+      required this.aluno_fk,
+      required this.serie_fk,
+      required this.turno_fk,
+      required this.ativa,
+      required this.data_emissao});
 
   String toJson() => jsonEncode(toMap());
 

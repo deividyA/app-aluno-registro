@@ -1,14 +1,13 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:app_aluno_registro/repositories/cep_repository.dart';
-import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:app_aluno_registro/repositories/ambiente_aluno_repository.dart';
 import 'package:app_aluno_registro/stores/sign_up_store.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:masked_text/masked_text.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:mobx/mobx.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -27,9 +26,9 @@ class _SignUpState extends State<SignUp> {
 
   final signUpStore = SignUpStore();
 
-  var ambiente_aluno;
+  dynamic ambiente_aluno;
   List<dynamic>? lista_municipios;
-  var index_municipio_cep;
+  dynamic index_municipio_cep;
 
   Future<void> atribui_municipios() async {
     ambiente_aluno = AmbienteAlunoRepository();
@@ -39,6 +38,7 @@ class _SignUpState extends State<SignUp> {
   pegaDadosCep(cep) async {
     var cep_api = CepRepository();
     var cep_buscado = await cep_api.buscarCep(cep);
+    // ignore: unnecessary_null_comparison
     if (cep_buscado != null) {
       return cep_buscado;
     } else {
@@ -77,13 +77,13 @@ class _SignUpState extends State<SignUp> {
   String? campo_sexo;
   final campo_pai = TextEditingController();
   final campo_mae = TextEditingController();
-  dynamic? campo_municipio;
+  dynamic campo_municipio;
   final campo_endereco = TextEditingController();
   final campo_bairro = TextEditingController();
   final campo_cep = TextEditingController();
 
-  var dados_cep;
-  var dados;
+  dynamic dados_cep;
+  dynamic dados;
 
   getControllerValues() async {
     if (signUpStore.isValid) {
@@ -114,6 +114,7 @@ class _SignUpState extends State<SignUp> {
         response.forEach((key, value) {
           errorMessages.addAll(value);
         });
+        // ignore: use_build_context_synchronously
         showDialog(
           context: context,
           builder: (context) => Dialog(
@@ -126,9 +127,9 @@ class _SignUpState extends State<SignUp> {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Color.fromARGB(255, 244, 67, 54)
+                    const Color.fromARGB(255, 244, 67, 54)
                         .withOpacity(1.0), // 100% red
-                    Color.fromARGB(255, 250, 126, 117).withOpacity(1.0),
+                    const Color.fromARGB(255, 250, 126, 117).withOpacity(1.0),
                   ],
                 ),
                 color: Colors.red,
@@ -144,40 +145,38 @@ class _SignUpState extends State<SignUp> {
                           MainAxisAlignment.end, // Align icon to the right
                       children: [
                         Padding(
-                            padding: EdgeInsets.only(right: 5, top: 5),
+                            padding: const EdgeInsets.only(right: 5, top: 5),
                             child: GestureDetector(
                               onTap: () {
                                 Navigator.of(context).pop();
                               },
-                              child: Icon(
+                              child: const Icon(
                                 Icons.close,
                                 color: Colors.white,
                                 size: 20,
                               ),
                             ))
                       ]),
-                  Container(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Row(
-                        children: [
-                          Text(
-                            'Erro!!',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold,
-                            ),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 20),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Erro!!',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 20, bottom: 20),
                     child: Text(
                       errorMessages.join(', ').toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
                       ),
@@ -224,7 +223,7 @@ class _SignUpState extends State<SignUp> {
         key: _formKey,
         child: Container(
           margin: const EdgeInsets.all(12.0),
-          padding: EdgeInsets.only(),
+          padding: const EdgeInsets.only(),
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -319,7 +318,7 @@ class _SignUpState extends State<SignUp> {
                 Observer(
                   builder: (_) => TextField(
                     controller: campo_cpf,
-                    keyboardType: TextInputType.numberWithOptions(
+                    keyboardType: const TextInputType.numberWithOptions(
                         decimal: false, signed: false),
                     inputFormatters: [mask_cpf],
                     onChanged: (value) =>
@@ -333,7 +332,7 @@ class _SignUpState extends State<SignUp> {
                     },
                     decoration: InputDecoration(
                         isDense: true,
-                        label: Text("CPF"),
+                        label: const Text("CPF"),
                         errorText:
                             foi_tocado_cpf ? signUpStore.validateCpf() : null,
                         border: OutlineInputBorder(
@@ -357,7 +356,7 @@ class _SignUpState extends State<SignUp> {
                     },
                     decoration: InputDecoration(
                         isDense: true,
-                        label: Text("Rg"),
+                        label: const Text("Rg"),
                         errorText:
                             foi_tocado_rg ? signUpStore.validateRg() : null,
                         border: OutlineInputBorder(
@@ -385,7 +384,7 @@ class _SignUpState extends State<SignUp> {
                     },
                     decoration: InputDecoration(
                         isDense: true,
-                        label: Text("Data de Nascimento"),
+                        label: const Text("Data de Nascimento"),
                         errorText: foi_tocado_nascimento
                             ? signUpStore.validateDataNascimento()
                             : null,
@@ -402,7 +401,7 @@ class _SignUpState extends State<SignUp> {
                     inputFormatters: [mask_telefone],
                     onChanged: (value) =>
                         signUpStore.telefone = mask_telefone.getUnmaskedText(),
-                    keyboardType: TextInputType.numberWithOptions(
+                    keyboardType: const TextInputType.numberWithOptions(
                         decimal: false, signed: false),
                     onTap: () => {
                       foi_tocado_telefone == false
@@ -413,7 +412,7 @@ class _SignUpState extends State<SignUp> {
                     },
                     decoration: InputDecoration(
                         isDense: true,
-                        label: Text("Telefone"),
+                        label: const Text("Telefone"),
                         errorText: foi_tocado_telefone
                             ? signUpStore.validateTelefone()
                             : null,
@@ -438,7 +437,7 @@ class _SignUpState extends State<SignUp> {
                     },
                     decoration: InputDecoration(
                         isDense: true,
-                        label: Text("Email"),
+                        label: const Text("Email"),
                         errorText: foi_tocado_email
                             ? signUpStore.validateEmail()
                             : null,
@@ -467,7 +466,7 @@ class _SignUpState extends State<SignUp> {
                     },
                     decoration: InputDecoration(
                         isDense: true,
-                        label: Text("Sexo"),
+                        label: const Text("Sexo"),
                         errorText:
                             foi_tocado_sexo ? signUpStore.validateSexo() : null,
                         border: OutlineInputBorder(
@@ -485,7 +484,7 @@ class _SignUpState extends State<SignUp> {
                     ],
                   ),
                 ),
-                Text(' '),
+                const Text(' '),
                 Observer(
                   builder: (_) => TextField(
                     controller: campo_pai,
@@ -499,7 +498,7 @@ class _SignUpState extends State<SignUp> {
                     },
                     decoration: InputDecoration(
                         isDense: true,
-                        label: Text("Pai"),
+                        label: const Text("Pai"),
                         errorText:
                             foi_tocado_pai ? signUpStore.validatePai() : null,
                         border: OutlineInputBorder(
@@ -522,7 +521,7 @@ class _SignUpState extends State<SignUp> {
                     },
                     decoration: InputDecoration(
                         isDense: true,
-                        label: Text("Mãe"),
+                        label: const Text("Mãe"),
                         errorText:
                             foi_tocado_mae ? signUpStore.validateMae() : null,
                         border: OutlineInputBorder(
@@ -568,7 +567,7 @@ class _SignUpState extends State<SignUp> {
                     },
                     decoration: InputDecoration(
                         isDense: true,
-                        label: Text("CEP"),
+                        label: const Text("CEP"),
                         errorText:
                             foi_tocado_cep ? signUpStore.validateCep() : null,
                         border: OutlineInputBorder(
@@ -600,7 +599,7 @@ class _SignUpState extends State<SignUp> {
                     },
                     decoration: InputDecoration(
                         isDense: true,
-                        label: Text("Municipio"),
+                        label: const Text("Municipio"),
                         errorText: foi_tocado_municipio
                             ? signUpStore.validateMunicipio()
                             : null,
@@ -615,7 +614,7 @@ class _SignUpState extends State<SignUp> {
                     }).toList(),
                   ),
                 ),
-                Text(' '),
+                const Text(' '),
                 Observer(
                   builder: (_) => TextField(
                     controller: campo_endereco,
@@ -629,7 +628,7 @@ class _SignUpState extends State<SignUp> {
                     },
                     decoration: InputDecoration(
                         isDense: true,
-                        label: Text("Endereço"),
+                        label: const Text("Endereço"),
                         errorText: foi_tocado_endereco
                             ? signUpStore.validateEndereco()
                             : null,
@@ -653,7 +652,7 @@ class _SignUpState extends State<SignUp> {
                     },
                     decoration: InputDecoration(
                         isDense: true,
-                        label: Text("Bairro"),
+                        label: const Text("Bairro"),
                         errorText: foi_tocado_bairro
                             ? signUpStore.validateBairro()
                             : null,
@@ -669,13 +668,15 @@ class _SignUpState extends State<SignUp> {
                     getControllerValues();
                   },
                   style: ElevatedButton.styleFrom(
+                    // ignore: deprecated_member_use
                     primary: Theme.of(context).colorScheme.inversePrimary,
+                    // ignore: deprecated_member_use
                     onPrimary: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8), // Rounded corners
                     ),
                   ),
-                  child: SizedBox(
+                  child: const SizedBox(
                     width: double
                         .infinity, // Button expands to the full width of its parent
                     child: Center(

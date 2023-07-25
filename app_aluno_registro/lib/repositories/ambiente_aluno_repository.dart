@@ -19,7 +19,7 @@ class AmbienteAlunoRepository {
     return AmbienteAluno.fromJsonToList(responseData);
   }
 
-  Future<dynamic?> cadastraAluno(Map<String, dynamic> dados) async {
+  Future<dynamic> cadastraAluno(Map<String, dynamic> dados) async {
     try {
       final response = await http.post(
         Uri.parse('$url_bzs_api_local' 'aluno_usuario'),
@@ -49,7 +49,7 @@ class AmbienteAlunoRepository {
     }
   }
 
-  Future<dynamic?> loginAluno(Map<String, dynamic> dados) async {
+  Future<dynamic> loginAluno(Map<String, dynamic> dados) async {
     try {
       final response = await http.post(
         Uri.parse('$url_bzs_api_local' 'login_aluno_usuario'),

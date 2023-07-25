@@ -1,4 +1,3 @@
-import 'package:app_aluno_registro/pages/sign_up.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -13,7 +12,7 @@ class _ForgotPassword extends State<ForgotPassword> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-      child: Center(
+      child: const Center(
         child: Text(
           'Ai tu se fodeu pq eu n fiz essa pagina ainda amigo',
           style: TextStyle(fontSize: 30),

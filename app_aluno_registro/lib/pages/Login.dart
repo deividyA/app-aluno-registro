@@ -1,4 +1,6 @@
-import 'package:app_aluno_registro/pages/forgot-password.dart';
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously, non_constant_identifier_names
+
+import 'package:app_aluno_registro/pages/forgot_password.dart';
 import 'package:app_aluno_registro/pages/home.dart';
 import 'package:app_aluno_registro/pages/sign_up.dart';
 import 'package:app_aluno_registro/repositories/ambiente_aluno_repository.dart';
@@ -17,6 +19,7 @@ final login_store = LoginStore();
 final ambiente_aluno_repository = AmbienteAlunoRepository();
 
 class _LoginState extends State<Login> {
+  @override
   void initState() {
     super.initState();
     // Updated
@@ -27,8 +30,8 @@ class _LoginState extends State<Login> {
   final campo_senha = TextEditingController();
   bool showPassword = false;
   bool foi_tocado_senha = false;
-  var dados;
-  var token;
+  dynamic dados;
+  dynamic token;
   List<dynamic> errorMessages = [];
 
   Future<void> getControllerValues() async {
@@ -45,14 +48,14 @@ class _LoginState extends State<Login> {
           if (login_store.token != null && login_store.token != '') {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => Home()),
+              MaterialPageRoute(builder: (context) => const Home()),
             );
           }
         } else {
           resposta.forEach((key, value) {
             errorMessages = [value];
           });
-          print(errorMessages);
+
           setState(() {});
         }
       }
@@ -85,12 +88,13 @@ class _LoginState extends State<Login> {
                 children: [
                   Observer(builder: (_) {
                     return Padding(
-                        padding: EdgeInsets.only(bottom: 10),
+                        padding: const EdgeInsets.only(bottom: 10),
                         child: Text(
-                          errorMessages.length > 0
+                          errorMessages.isNotEmpty
                               ? errorMessages.join(', ').toString()
                               : '',
-                          style: TextStyle(color: Colors.red, fontSize: 12),
+                          style:
+                              const TextStyle(color: Colors.red, fontSize: 12),
                         ));
                   }),
                   Observer(builder: (_) {
@@ -158,16 +162,16 @@ class _LoginState extends State<Login> {
                   }),
                   Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                     Padding(
-                      padding: EdgeInsets.only(bottom: 5),
+                      padding: const EdgeInsets.only(bottom: 5),
                       child: InkWell(
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ForgotPassword()),
+                                builder: (context) => const ForgotPassword()),
                           );
                         },
-                        child: Text(
+                        child: const Text(
                           'Esqueci minha senha',
                           style: TextStyle(
                             color: Colors.blue,
@@ -189,7 +193,7 @@ class _LoginState extends State<Login> {
                             BorderRadius.circular(8), // Rounded corners
                       ),
                     ),
-                    child: SizedBox(
+                    child: const SizedBox(
                       width: double
                           .infinity, // Button expands to the full width of its parent
                       child: Center(
@@ -202,15 +206,16 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.only(top: 10),
                     child: InkWell(
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => SignUp()),
+                          MaterialPageRoute(
+                              builder: (context) => const SignUp()),
                         );
                       },
-                      child: Text(
+                      child: const Text(
                         'Ainda não tem um cadastro? Registre-se',
                         style: TextStyle(
                           color: Colors.blue,

@@ -18,8 +18,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Color.fromARGB(255, 72, 149, 212),
-          inversePrimary: Color.fromARGB(255, 72, 149, 212),
+          seedColor: const Color.fromARGB(255, 72, 149, 212),
+          inversePrimary: const Color.fromARGB(255, 72, 149, 212),
         ),
         textTheme: const TextTheme(
           displayLarge: TextStyle(color: Colors.white, fontSize: 22),
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: token != null && token != '' ? Home() : Login(),
+      home: token != null && token != '' ? const Home() : const Login(),
     );
   }
 
