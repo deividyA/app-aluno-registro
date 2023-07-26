@@ -22,7 +22,7 @@ class AmbienteAlunoRepository {
   Future<dynamic> cadastraAluno(Map<String, dynamic> dados) async {
     try {
       final response = await http.post(
-        Uri.parse('$url_bzs_api_local' 'aluno_usuario'),
+        Uri.parse('$url_bzs_api_local' 'ste/aluno_usuario'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -52,7 +52,7 @@ class AmbienteAlunoRepository {
   Future<dynamic> loginAluno(Map<String, dynamic> dados) async {
     try {
       final response = await http.post(
-        Uri.parse('$url_bzs_api_local' 'login_aluno_usuario'),
+        Uri.parse('$url_bzs_api_local' 'ste/login_aluno_usuario'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

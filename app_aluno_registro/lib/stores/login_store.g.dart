@@ -20,13 +20,13 @@ mixin _$LoginStore on _LoginStore, Store {
       Atom(name: '_LoginStore.numeroSere', context: context);
 
   @override
-  double? get numeroSere {
+  int? get numeroSere {
     _$numeroSereAtom.reportRead();
     return super.numeroSere;
   }
 
   @override
-  set numeroSere(double? value) {
+  set numeroSere(int? value) {
     _$numeroSereAtom.reportWrite(value, super.numeroSere, () {
       super.numeroSere = value;
     });

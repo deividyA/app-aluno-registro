@@ -7,13 +7,10 @@ class LoginStore = _LoginStore with _$LoginStore;
 
 abstract class _LoginStore with Store {
   @observable
-  double? numeroSere;
+  int? numeroSere;
 
   @observable
   String? senha;
-
-  @observable
-  String? token;
 
   @computed
   bool get isValid {
@@ -25,7 +22,7 @@ abstract class _LoginStore with Store {
   }
 
   void setNumeroSere(String value) {
-    numeroSere = double.tryParse(value);
+    numeroSere = int.tryParse(value);
   }
 
   String? validateNumeroSere() {

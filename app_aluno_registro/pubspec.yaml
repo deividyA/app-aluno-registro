@@ -42,6 +42,7 @@ dependencies:
   intl: ^0.18.1
   cpf_cnpj_validator: 2.0.0-nullsafety
   flip_card: ^0.7.0
+  shared_preferences: ^2.2.0
   
   
   

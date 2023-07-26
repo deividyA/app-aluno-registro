@@ -7,6 +7,7 @@ import 'package:app_aluno_registro/repositories/ambiente_aluno_repository.dart';
 import 'package:app_aluno_registro/stores/login_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -19,19 +20,27 @@ final login_store = LoginStore();
 final ambiente_aluno_repository = AmbienteAlunoRepository();
 
 class _LoginState extends State<Login> {
+  late SharedPreferences prefs;
+
   @override
-  void initState() {
+  initState() {
+    initSharedPreferences();
     super.initState();
     // Updated
   }
 
+  Future<void> initSharedPreferences() async {
+    prefs = await SharedPreferences.getInstance();
+  }
+
+  String? token;
   final _formKey = GlobalKey<FormState>();
   final campo_login = TextEditingController();
   final campo_senha = TextEditingController();
   bool showPassword = false;
   bool foi_tocado_senha = false;
   dynamic dados;
-  dynamic token;
+
   List<dynamic> errorMessages = [];
 
   Future<void> getControllerValues() async {
@@ -41,21 +50,19 @@ class _LoginState extends State<Login> {
         'senha': login_store.senha,
       };
       var resposta = await ambiente_aluno_repository.loginAluno(dados);
-
       if (resposta.length > 0) {
         if (resposta['token'] != null) {
-          login_store.token = resposta['token'];
-          if (login_store.token != null && login_store.token != '') {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const Home()),
-            );
-          }
+          token = resposta['token'];
+          await prefs.setString('token', token!);
+          await prefs.setInt('numero_sere', login_store.numeroSere!);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const Home()),
+          );
         } else {
           resposta.forEach((key, value) {
             errorMessages = [value];
           });
-
           setState(() {});
         }
       }
