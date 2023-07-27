@@ -28,11 +28,12 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
-  Future<dynamic> initSharedPreferences() async {
+  Future<void> initSharedPreferences() async {
     prefs = await SharedPreferences.getInstance();
     token = await prefs.getString('token');
     numero_sere = await prefs.getInt('numero_sere');
     if (await prefs.getString('nome') != null) {
+      dados = [{}];
       dados[0]['nome'] = await prefs.getString('nome');
       dados[0]['escola'] = await prefs.getString('escola');
       dados[0]['pai'] = await prefs.getString('pai');
@@ -41,8 +42,11 @@ class _HomeState extends State<Home> {
       dados[0]['data_nascimento'] = await prefs.getString('data_nascimento');
       dados[0]['serie'] = await prefs.getString('serie');
       dados[0]['sexo'] = await prefs.getString('sexo');
-      dados[0]['numero_sere'] = await prefs.getString('numero_sere');
+      dados[0]['numero_sere'] = numero_sere;
       dados[0]['fone_residencial'] = await prefs.getString('fone_residencial');
+      dados[0]['json_build_object'] =
+          await prefs.getString('json_build_object');
+      print('dados: $dados');
     } else {
       await pegaDadosAluno(token, numero_sere);
     }
@@ -58,8 +62,9 @@ class _HomeState extends State<Home> {
     await prefs.setString('data_nascimento', dados[0]['data_nascimento']);
     await prefs.setString('serie', dados[0]['serie']);
     await prefs.setString('sexo', dados[0]['sexo']);
-    await prefs.setString('numero_sere', dados[0]['numero_sere']);
     await prefs.setString('fone_residencial', dados[0]['fone_residencial']);
+    await prefs.setString(
+        'json_build_object', dados[0]['json_build_object'].toString());
   }
 
   @override
