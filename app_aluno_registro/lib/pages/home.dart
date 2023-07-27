@@ -46,7 +46,6 @@ class _HomeState extends State<Home> {
       dados[0]['fone_residencial'] = await prefs.getString('fone_residencial');
       dados[0]['json_build_object'] =
           await prefs.getString('json_build_object');
-      print('dados: $dados');
     } else {
       await pegaDadosAluno(token, numero_sere);
     }

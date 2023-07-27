@@ -14,7 +14,7 @@ class _ForgotPassword extends State<ForgotPassword> {
         body: Container(
       child: const Center(
         child: Text(
-          'Ai tu se fodeu pq eu n fiz essa pagina ainda amigo',
+          'teste',
           style: TextStyle(fontSize: 30),
         ),
       ),
