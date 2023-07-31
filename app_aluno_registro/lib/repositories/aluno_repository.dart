@@ -1,10 +1,9 @@
 import 'dart:convert';
-
-import 'package:app_aluno_registro/models/aluno.dart';
 import 'package:http/http.dart' as http;
 import 'repositories_variables.dart';
 
 class AlunoRepository {
+  // ignore: non_constant_identifier_names
   Future<List> getAlunos(String token, int numero_sere) async {
     final response = await http.get(
       Uri.parse('${url_bzs_api_local}carteira_completa/$numero_sere'),

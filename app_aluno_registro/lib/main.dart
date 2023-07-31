@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // While the future is still resolving, you can show a loading indicator if desired.
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         } else if (snapshot.hasError ||
             snapshot.data == null ||
             snapshot.data == '') {

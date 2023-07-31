@@ -28,15 +28,9 @@ class AmbienteAlunoRepository {
         },
         body: jsonEncode(dados),
       );
-
       if (response.statusCode == 200) {
         return null;
-      } else if (response.statusCode == 422) {
-        final jsonResponse = jsonDecode(response.body);
-        final errorMessages = jsonResponse['message'];
-
-        return errorMessages;
-      } else if (response.statusCode == 500) {
+      } else if (response.statusCode != 200) {
         final jsonResponse = jsonDecode(response.body);
         final errorMessages = jsonResponse['message'];
 
@@ -59,16 +53,9 @@ class AmbienteAlunoRepository {
         body: jsonEncode(dados),
       );
 
-      if (response.statusCode == 200) {
+      // ignore: unnecessary_null_comparison
+      if (response.statusCode != null) {
         return jsonDecode(response.body);
-      } else if (response.statusCode == 401) {
-        final jsonResponse = jsonDecode(response.body);
-
-        return jsonResponse;
-      } else if (response.statusCode == 500) {
-        final jsonResponse = jsonDecode(response.body);
-
-        return jsonResponse;
       } else {
         return 'Unexpected error occurred.';
       }

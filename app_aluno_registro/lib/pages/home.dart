@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names, await_only_futures
+
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:app_aluno_registro/repositories/aluno_repository.dart';
 import 'package:app_aluno_registro/stores/login_store.dart';
@@ -93,7 +95,7 @@ class _HomeState extends State<Home> {
             future: initSharedPreferences(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator(); // Show loading indicator while waiting for dados
+                return const CircularProgressIndicator();
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else if (dados != null) {
@@ -104,7 +106,7 @@ class _HomeState extends State<Home> {
                   back: CardBack(dados: dados[0]),
                 );
               } else {
-                return Text('No data found.');
+                return const Text('No data found.');
               }
             },
           ),
@@ -139,7 +141,7 @@ class CardFront extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
@@ -159,25 +161,25 @@ class CardFront extends StatelessWidget {
                   children: [
                     Text(
                       'Escola: ${dados['escola']}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 10,
                       ),
                     ),
                     Text(
                       'Nome: ${dados['nome']}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 10,
                       ),
                     ),
                     Text(
                       'Pai: ${dados['pai']}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 10,
                       ),
                     ),
                     Text(
                       'Mãe: ${dados['mae']}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 10,
                       ),
                     ),
@@ -186,13 +188,13 @@ class CardFront extends StatelessWidget {
                       children: [
                         Text(
                           'Turno: ${dados['turno']}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 10,
                           ),
                         ),
                         Text(
                           'D.Nasc: ${DateFormat('dd/MM/yyyy').format(DateTime.parse(dados['data_nascimento']))}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 10,
                           ),
                         ),
@@ -203,13 +205,13 @@ class CardFront extends StatelessWidget {
                       children: [
                         Text(
                           'Série: ${dados['serie']}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 10,
                           ),
                         ),
                         Text(
                           'Sexo: ${dados['sexo']}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 10,
                           ),
                         ),
@@ -220,13 +222,13 @@ class CardFront extends StatelessWidget {
                       children: [
                         Text(
                           'SERE:${dados['numero_sere']}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 10,
                           ),
                         ),
                         Text(
                           'Fone: ${dados['fone_residencial']}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 10,
                           ),
                         ),

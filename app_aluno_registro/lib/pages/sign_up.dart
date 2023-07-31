@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, depend_on_referenced_packages
 
 import 'package:app_aluno_registro/repositories/cep_repository.dart';
 import 'package:intl/intl.dart';
