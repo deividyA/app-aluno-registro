@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names, depend_on_referenced_packages
 
+import 'package:app_aluno_registro/common.dart';
 import 'package:app_aluno_registro/repositories/cep_repository.dart';
 import 'package:intl/intl.dart';
 import 'package:app_aluno_registro/repositories/ambiente_aluno_repository.dart';
@@ -115,78 +116,8 @@ class _SignUpState extends State<SignUp> {
           errorMessages.addAll(value);
         });
         // ignore: use_build_context_synchronously
-        showDialog(
-          context: context,
-          builder: (context) => Dialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    const Color.fromARGB(255, 244, 67, 54)
-                        .withOpacity(1.0), // 100% red
-                    const Color.fromARGB(255, 250, 126, 117).withOpacity(1.0),
-                  ],
-                ),
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                // Align title to the left
-                children: [
-                  Row(
-                      mainAxisAlignment:
-                          MainAxisAlignment.end, // Align icon to the right
-                      children: [
-                        Padding(
-                            padding: const EdgeInsets.only(right: 5, top: 5),
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: const Icon(
-                                Icons.close,
-                                color: Colors.white,
-                                size: 20,
-                              ),
-                            ))
-                      ]),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 20),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Erro!!',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20, bottom: 20),
-                    child: Text(
-                      errorMessages.join(', ').toString(),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
+        Common.displayError(
+            context, 'Erro!!', errorMessages.join(', ').toString());
       }
     } else {
       foi_tocado_senha = true;

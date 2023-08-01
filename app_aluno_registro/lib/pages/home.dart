@@ -1,5 +1,7 @@
-// ignore_for_file: non_constant_identifier_names, await_only_futures
+// ignore_for_file: non_constant_identifier_names, await_only_futures, use_build_context_synchronously
 
+import 'package:app_aluno_registro/common.dart';
+import 'package:app_aluno_registro/pages/login.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:app_aluno_registro/repositories/aluno_repository.dart';
 import 'package:app_aluno_registro/stores/login_store.dart';
@@ -34,7 +36,27 @@ class _HomeState extends State<Home> {
     prefs = await SharedPreferences.getInstance();
     token = await prefs.getString('token');
     numero_sere = await prefs.getInt('numero_sere');
+
     if (await prefs.getString('nome') != null) {
+      int ano = DateTime.now().year;
+      int? ano1 = await prefs.getInt('ano1');
+      int? ano2 = await prefs.getInt('ano2');
+      int? ano3 = await prefs.getInt('ano3');
+
+      if (ano != ano1 && ano != ano2 && ano != ano3) {
+        await prefs.remove('token');
+        login_store.senha = null;
+        login_store.numeroSere = null;
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const Login()),
+        );
+
+        Common.displayError(context, 'Erro!!',
+            'Sua carteirinha não foi atualizada para este ano!');
+      }
+
       dados = [{}];
       dados[0]['nome'] = await prefs.getString('nome');
       dados[0]['escola'] = await prefs.getString('escola');
@@ -66,6 +88,9 @@ class _HomeState extends State<Home> {
     await prefs.setString('fone_residencial', dados[0]['fone_residencial']);
     await prefs.setString(
         'json_build_object', dados[0]['json_build_object'].toString());
+    dados[0]['ano1'] ? await prefs.setInt('ano1', dados[0]['ano1']) : '';
+    dados[0]['ano2'] ? await prefs.setInt('ano2', dados[0]['ano2']) : '';
+    dados[0]['ano3'] ? await prefs.setInt('ano3', dados[0]['ano3']) : '';
   }
 
   @override
