@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use, use_build_context_synchronously, non_constant_identifier_names
 
+import 'package:app_aluno_registro/pages/document_renew.dart';
 import 'package:app_aluno_registro/pages/forgot_password.dart';
 import 'package:app_aluno_registro/pages/home.dart';
 import 'package:app_aluno_registro/pages/sign_up.dart';
@@ -50,7 +51,7 @@ class _LoginState extends State<Login> {
         'senha': login_store.senha,
       };
       var resposta = await ambiente_aluno_repository.loginAluno(dados);
-      if (resposta.length > 0) {
+      if (resposta.runtimeType != String) {
         if (resposta['token'] != null) {
           token = resposta['token'];
           await prefs.setString('token', token!);
@@ -65,6 +66,9 @@ class _LoginState extends State<Login> {
           });
           setState(() {});
         }
+      } else {
+        errorMessages = [resposta];
+        setState(() {});
       }
     } else {
       foi_tocado_senha = true;
@@ -167,27 +171,50 @@ class _LoginState extends State<Login> {
                       maxLength: 60,
                     );
                   }),
-                  Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 5),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const ForgotPassword()),
-                          );
-                        },
-                        child: const Text(
-                          'Esqueci minha senha',
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontSize: 10,
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 5),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const DocumentRenew()),
+                              );
+                            },
+                            child: const Text(
+                              'Renovar documentos',
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 10,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  ]),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 5),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ForgotPassword()),
+                              );
+                            },
+                            child: const Text(
+                              'Esqueci minha senha',
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 10,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ]),
                   ElevatedButton(
                     onPressed: () {
                       getControllerValues();

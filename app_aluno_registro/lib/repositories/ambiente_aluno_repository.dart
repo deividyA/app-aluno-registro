@@ -53,12 +53,7 @@ class AmbienteAlunoRepository {
         body: jsonEncode(dados),
       );
 
-      // ignore: unnecessary_null_comparison
-      if (response.statusCode != null) {
-        return jsonDecode(response.body);
-      } else {
-        return 'Unexpected error occurred.';
-      }
+      return jsonDecode(response.body);
     } catch (e) {
       return e.toString();
     }

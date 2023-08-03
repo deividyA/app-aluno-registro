@@ -45,6 +45,7 @@ class _HomeState extends State<Home> {
 
       if (ano != ano1 && ano != ano2 && ano != ano3) {
         await prefs.remove('token');
+        await prefs.remove('nome');
         login_store.senha = null;
         login_store.numeroSere = null;
 
@@ -54,7 +55,7 @@ class _HomeState extends State<Home> {
         );
 
         Common.displayError(context, 'Erro!!',
-            'Sua carteirinha não foi atualizada para este ano!');
+            'Sua carteirinha não foi atualizada para este ano!, Por favor Renove os Documentos.');
       }
 
       dados = [{}];
@@ -88,9 +89,15 @@ class _HomeState extends State<Home> {
     await prefs.setString('fone_residencial', dados[0]['fone_residencial']);
     await prefs.setString(
         'json_build_object', dados[0]['json_build_object'].toString());
-    dados[0]['ano1'] ? await prefs.setInt('ano1', dados[0]['ano1']) : '';
-    dados[0]['ano2'] ? await prefs.setInt('ano2', dados[0]['ano2']) : '';
-    dados[0]['ano3'] ? await prefs.setInt('ano3', dados[0]['ano3']) : '';
+    if (dados[0]['ano1'] != null) {
+      await prefs.setInt('ano1', dados[0]['ano1']);
+    }
+    if (dados[0]['ano2'] != null) {
+      await prefs.setInt('ano2', dados[0]['ano2']);
+    }
+    if (dados[0]['ano3'] != null) {
+      await prefs.setInt('ano3', dados[0]['ano3']);
+    }
   }
 
   @override
