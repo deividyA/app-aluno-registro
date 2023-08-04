@@ -51,6 +51,7 @@ class _LoginState extends State<Login> {
         'senha': login_store.senha,
       };
       var resposta = await ambiente_aluno_repository.loginAluno(dados);
+      print(resposta);
       if (resposta.runtimeType != String) {
         if (resposta['token'] != null) {
           token = resposta['token'];

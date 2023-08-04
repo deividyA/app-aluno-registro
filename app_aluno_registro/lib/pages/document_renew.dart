@@ -43,8 +43,7 @@ class _DocumentRenewState extends State<DocumentRenew> {
 
   Future<void> pickCertidaoFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['pdf', 'doc', 'docx', 'image', 'jpeg', 'png'],
+      type: FileType.image,
     );
 
     if (result != null) {
@@ -57,8 +56,7 @@ class _DocumentRenewState extends State<DocumentRenew> {
 
   Future<void> pickComprovanteResidenciaFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['pdf', 'doc', 'docx', 'image', 'jpeg', 'png'],
+      type: FileType.image,
     );
 
     if (result != null) {
@@ -71,8 +69,7 @@ class _DocumentRenewState extends State<DocumentRenew> {
 
   Future<void> pickFotoFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['pdf', 'doc', 'docx', 'image', 'jpeg', 'png'],
+      type: FileType.image,
     );
 
     if (result != null) {
@@ -85,8 +82,7 @@ class _DocumentRenewState extends State<DocumentRenew> {
 
   Future<void> pickComprovanteMatriculaFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['pdf', 'doc', 'docx', 'image', 'jpeg', 'png'],
+      type: FileType.image,
     );
 
     if (result != null) {
@@ -101,15 +97,18 @@ class _DocumentRenewState extends State<DocumentRenew> {
     if (documentRenewStore.isValid) {
       dados = {
         'numero_sere': documentRenewStore.numeroSere,
+        'foto': fotoFile?.path,
+        'certidao_nasc': certidaoFile?.path,
+        'comprovante_residencia': comprovanteResidenciaFile?.path,
+        'comprovante_matricula': comprovanteMatriculaFile?.path
       };
-      final response = await ambiente_aluno.cadastraAluno(dados);
+      final response = await ambiente_aluno.renovaDocumentos(dados);
 
       List<dynamic> errorMessages = [];
 
       if (response != null) {
-        response.forEach((key, value) {
-          errorMessages.addAll(value);
-        });
+        errorMessages.add(response);
+
         // ignore: use_build_context_synchronously
         Common.displayError(
             context, 'Erro!!', errorMessages.join(', ').toString());
