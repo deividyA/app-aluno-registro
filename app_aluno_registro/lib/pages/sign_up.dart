@@ -174,13 +174,18 @@ class _SignUpState extends State<SignUp> {
 
       List<dynamic> errorMessages = [];
 
-      if (response != null) {
+      if (response != null && response.runtimeType == String) {
+        errorMessages.add(response);
+      } else if (response != null) {
         response.forEach((key, value) {
           errorMessages.addAll(value);
         });
       }
 
-      if (response_documentos != null) {
+      if (response_documentos != null &&
+          response_documentos.runtimeType == String) {
+        errorMessages.add(response_documentos);
+      } else if (response_documentos != null) {
         response_documentos.forEach((key, value) {
           errorMessages.addAll(value);
         });

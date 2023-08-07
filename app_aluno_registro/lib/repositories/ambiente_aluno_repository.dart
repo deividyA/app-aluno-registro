@@ -108,7 +108,9 @@ class AmbienteAlunoRepository {
 
       var response = await request.send();
 
-      if (response.statusCode != 200) {
+      if (response.statusCode == 200) {
+        return null;
+      } else if (response.statusCode != 200) {
         var responseString = await response.stream.bytesToString();
         return jsonDecode(responseString)['message'];
       } else {
