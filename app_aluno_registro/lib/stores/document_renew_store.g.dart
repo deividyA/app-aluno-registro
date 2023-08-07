@@ -20,13 +20,13 @@ mixin _$DocumentRenewStore on _DocumentRenewStore, Store {
       Atom(name: '_DocumentRenewStore.numeroSere', context: context);
 
   @override
-  double? get numeroSere {
+  String? get numeroSere {
     _$numeroSereAtom.reportRead();
     return super.numeroSere;
   }
 
   @override
-  set numeroSere(double? value) {
+  set numeroSere(String? value) {
     _$numeroSereAtom.reportWrite(value, super.numeroSere, () {
       super.numeroSere = value;
     });

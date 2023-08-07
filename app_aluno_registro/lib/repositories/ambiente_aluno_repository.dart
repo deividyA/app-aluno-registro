@@ -68,72 +68,52 @@ class AmbienteAlunoRepository {
         Uri.parse('$url_bzs_api_local' 'ste/renew_documentation'),
       );
 
-      // Add other form fields (non-file data) to the request
-      //request.fields['numero_sere'] = dados['numero_sere'];
+      request.fields['numero_sere'] = dados['numero_sere'];
 
-      request.files.add(new http.MultipartFile.fromBytes(
-          'foto', await File.fromUri(Uri.parse(dados['foto'])).readAsBytes(),
-          contentType: new MediaType('image', 'jpeg')));
+      var fotoFile = dados['foto'];
+      if (fotoFile != null) {
+        request.files.add(await http.MultipartFile.fromPath(
+          'foto',
+          fotoFile,
+          contentType: MediaType('image', 'jpeg'),
+        ));
+      }
 
-      request.files.add(new http.MultipartFile.fromBytes('certidao_nasc',
-          await File.fromUri(Uri.parse(dados['certidao_nasc'])).readAsBytes(),
-          contentType: new MediaType('image', 'jpeg')));
-      request.files.add(new http.MultipartFile.fromBytes(
+      var certidaoFile = dados['certidao_nasc'];
+      if (certidaoFile != null) {
+        request.files.add(await http.MultipartFile.fromPath(
+          'certidao_nasc',
+          certidaoFile,
+          contentType: MediaType('image', 'jpeg'),
+        ));
+      }
+
+      var comprovanteResidenciaFile = dados['comprovante_residencia'];
+      if (comprovanteResidenciaFile != null) {
+        request.files.add(await http.MultipartFile.fromPath(
           'comprovante_residencia',
-          await File.fromUri(Uri.parse(dados['comprovante_residencia']))
-              .readAsBytes(),
-          contentType: new MediaType('image', 'jpeg')));
-      request.files.add(new http.MultipartFile.fromBytes(
+          comprovanteResidenciaFile,
+          contentType: MediaType('image', 'jpeg'),
+        ));
+      }
+
+      var comprovanteMatriculaFile = dados['comprovante_matricula'];
+      if (comprovanteMatriculaFile != null) {
+        request.files.add(await http.MultipartFile.fromPath(
           'comprovante_matricula',
-          await File.fromUri(Uri.parse(dados['comprovante_matricula']))
-              .readAsBytes(),
-          contentType: new MediaType('image', 'jpeg')));
-      // Add the files to the request
-      // if (dados['foto'] != null) {
-      //   var fotoFile = dados['foto'];
-      //   request.files.add(await http.MultipartFile.fromPath(
-      //     'foto',
-      //     fotoFile.path,
-      //     contentType:
-      //         MediaType('image', 'jpeg'), // Adjust the content type accordingly
-      //   ));
-      // }
-
-      // if (dados['certidao_nasc'] != null) {
-      //   var certidaoFile = dados['certidao_nasc'];
-      //   request.files.add(await http.MultipartFile.fromPath(
-      //     'certidao_nasc',
-      //     certidaoFile.path,
-      //     contentType: MediaType(
-      //         'application', 'pdf'), // Adjust the content type accordingly
-      //   ));
-      // }
-
-      // if (dados['comprovante_residencia'] != null) {
-      //   var comprovanteResidenciaFile = dados['comprovante_residencia'];
-      //   request.files.add(await http.MultipartFile.fromPath(
-      //     'comprovante_residencia',
-      //     comprovanteResidenciaFile.path,
-      //     contentType: MediaType(
-      //         'application', 'pdf'), // Adjust the content type accordingly
-      //   ));
-      // }
-
-      // if (dados['comprovante_matricula'] != null) {
-      //   var comprovanteMatriculaFile = dados['comprovante_matricula'];
-      //   request.files.add(await http.MultipartFile.fromPath(
-      //     'comprovante_matricula',
-      //     comprovanteMatriculaFile.path,
-      //     contentType: MediaType(
-      //         'application', 'pdf'), // Adjust the content type accordingly
-      //   ));
-      // }
+          comprovanteMatriculaFile,
+          contentType: MediaType('image', 'jpeg'),
+        ));
+      }
 
       var response = await request.send();
 
-      // Read the response as a string
-      var responseString = await response.stream.bytesToString();
-      return jsonDecode(responseString);
+      if (response.statusCode != 200) {
+        var responseString = await response.stream.bytesToString();
+        return jsonDecode(responseString)['message'];
+      } else {
+        return 'Unexpected error occurred.';
+      }
     } catch (e) {
       return e.toString();
     }

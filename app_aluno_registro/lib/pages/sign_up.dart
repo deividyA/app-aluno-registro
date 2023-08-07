@@ -1,7 +1,8 @@
 // ignore_for_file: non_constant_identifier_names, depend_on_referenced_packages
-
+import 'dart:io';
 import 'package:app_aluno_registro/common.dart';
 import 'package:app_aluno_registro/repositories/cep_repository.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:app_aluno_registro/repositories/ambiente_aluno_repository.dart';
 import 'package:app_aluno_registro/stores/sign_up_store.dart';
@@ -36,6 +37,54 @@ class _SignUpState extends State<SignUp> {
     lista_municipios = await ambiente_aluno.getMunicipios();
   }
 
+  Future<void> pickCertidaoFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+    );
+
+    if (result != null) {
+      setState(() {
+        certidaoFile = File(result.files.single.path!);
+      });
+    }
+  }
+
+  Future<void> pickComprovanteResidenciaFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+    );
+
+    if (result != null) {
+      setState(() {
+        comprovanteResidenciaFile = File(result.files.single.path!);
+      });
+    }
+  }
+
+  Future<void> pickFotoFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+    );
+
+    if (result != null) {
+      setState(() {
+        fotoFile = File(result.files.single.path!);
+      });
+    }
+  }
+
+  Future<void> pickComprovanteMatriculaFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+    );
+
+    if (result != null) {
+      setState(() {
+        comprovanteMatriculaFile = File(result.files.single.path!);
+      });
+    }
+  }
+
   pegaDadosCep(cep) async {
     var cep_api = CepRepository();
     var cep_buscado = await cep_api.buscarCep(cep);
@@ -64,7 +113,10 @@ class _SignUpState extends State<SignUp> {
   bool foi_tocado_bairro = false;
   bool foi_tocado_cep = false;
   bool foi_tocado_senha = false;
-
+  File? certidaoFile;
+  File? comprovanteResidenciaFile;
+  File? fotoFile;
+  File? comprovanteMatriculaFile;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final campo_numero_sere = TextEditingController();
   final campo_senha = TextEditingController();
@@ -85,6 +137,7 @@ class _SignUpState extends State<SignUp> {
 
   dynamic dados_cep;
   dynamic dados;
+  dynamic dados_documentos;
 
   getControllerValues() async {
     if (signUpStore.isValid) {
@@ -106,16 +159,34 @@ class _SignUpState extends State<SignUp> {
         'bairro': signUpStore.bairro,
         'cep': signUpStore.cep,
       };
+
+      dados_documentos = {
+        'numero_sere': signUpStore.numeroSere.toString(),
+        'foto': fotoFile?.path,
+        'certidao_nasc': certidaoFile?.path,
+        'comprovante_residencia': comprovanteResidenciaFile?.path,
+        'comprovante_matricula': comprovanteMatriculaFile?.path
+      };
+
       final response = await ambiente_aluno.cadastraAluno(dados);
+      final response_documentos =
+          await ambiente_aluno.renovaDocumentos(dados_documentos);
 
       List<dynamic> errorMessages = [];
 
-      // Check the response status and show the success/error pop-up accordingly
       if (response != null) {
         response.forEach((key, value) {
           errorMessages.addAll(value);
         });
-        // ignore: use_build_context_synchronously
+      }
+
+      if (response_documentos != null) {
+        response_documentos.forEach((key, value) {
+          errorMessages.addAll(value);
+        });
+      }
+
+      if (errorMessages.length > 0) {
         Common.displayError(
             context, 'Erro!!', errorMessages.join(', ').toString());
       }
@@ -593,6 +664,149 @@ class _SignUpState extends State<SignUp> {
                     maxLines: 1,
                     maxLength: 60,
                   ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.06,
+                      width: MediaQuery.of(context).size.width * 0.33,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          pickCertidaoFile();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          // ignore: deprecated_member_use
+                          primary: Theme.of(context).colorScheme.inversePrimary,
+                          // ignore: deprecated_member_use
+                          onPrimary: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(3), // Rounded corners
+                          ),
+                        ),
+                        // ... Other button attributes
+                        child: const Text('Certidao'),
+                      ),
+                    ),
+                    if (certidaoFile != null)
+                      Image.file(
+                        File(certidaoFile!.path),
+                        fit: BoxFit.cover,
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        width: MediaQuery.of(context).size.width * 0.4,
+                      ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.12,
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.06,
+                      width: MediaQuery.of(context).size.width * 0.33,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          pickComprovanteMatriculaFile();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          // ignore: deprecated_member_use
+                          primary: Theme.of(context).colorScheme.inversePrimary,
+                          // ignore: deprecated_member_use
+                          onPrimary: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(3), // Rounded corners
+                          ),
+                        ),
+                        child: const Text('Comprovante'),
+                      ),
+                    ),
+                    if (comprovanteMatriculaFile != null)
+                      Image.file(
+                        File(comprovanteMatriculaFile!.path),
+                        fit: BoxFit.cover,
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        width: MediaQuery.of(context).size.width * 0.4,
+                      ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.12,
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.06,
+                      width: MediaQuery.of(context).size.width * 0.33,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          pickComprovanteResidenciaFile();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          // ignore: deprecated_member_use
+                          primary: Theme.of(context).colorScheme.inversePrimary,
+                          // ignore: deprecated_member_use
+                          onPrimary: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(3), // Rounded corners
+                          ),
+                        ),
+                        child: const Text('Residencia'),
+                      ),
+                    ),
+                    if (comprovanteResidenciaFile != null)
+                      Image.file(
+                        File(comprovanteResidenciaFile!.path),
+                        fit: BoxFit.cover,
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        width: MediaQuery.of(context).size.width * 0.4,
+                      ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.12,
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.06,
+                      width: MediaQuery.of(context).size.width * 0.33,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          pickFotoFile();
+                        },
+
+                        style: ElevatedButton.styleFrom(
+                          // ignore: deprecated_member_use
+                          primary: Theme.of(context).colorScheme.inversePrimary,
+                          // ignore: deprecated_member_use
+                          onPrimary: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(3), // Rounded corners
+                          ),
+                        ),
+                        // ... Other button attributes
+                        child: const Text('Foto'),
+                      ),
+                    ),
+                    if (fotoFile != null)
+                      Image.file(
+                        File(fotoFile!.path),
+                        fit: BoxFit.cover,
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        width: MediaQuery.of(context).size.width * 0.4,
+                      ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.12,
+                    ),
+                  ],
                 ),
                 ElevatedButton(
                   onPressed: () {

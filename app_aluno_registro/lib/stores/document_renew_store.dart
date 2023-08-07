@@ -6,19 +6,15 @@ class DocumentRenewStore = _DocumentRenewStore with _$DocumentRenewStore;
 
 abstract class _DocumentRenewStore with Store {
   @observable
-  double? numeroSere;
+  String? numeroSere;
 
   @computed
   bool get isValid {
-    return numeroSere != null;
+    return isNotEmpty(numeroSere);
   }
 
   bool isNotEmpty(String? value) {
     return value != null && value.isNotEmpty;
-  }
-
-  void setNumeroSere(String value) {
-    numeroSere = double.tryParse(value);
   }
 
   String? validateNumeroSere() {

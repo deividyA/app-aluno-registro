@@ -21,7 +21,6 @@ class _DocumentRenewState extends State<DocumentRenew> {
   @override
   void initState() {
     super.initState();
-    // Updated
   }
 
   File? certidaoFile;
@@ -107,7 +106,9 @@ class _DocumentRenewState extends State<DocumentRenew> {
       List<dynamic> errorMessages = [];
 
       if (response != null) {
-        errorMessages.add(response);
+        response.forEach((key, value) {
+          errorMessages.addAll(value);
+        });
 
         // ignore: use_build_context_synchronously
         Common.displayError(
@@ -146,7 +147,7 @@ class _DocumentRenewState extends State<DocumentRenew> {
                       keyboardType: TextInputType.number,
                       autofocus: true,
                       onChanged: (value) =>
-                          documentRenewStore.setNumeroSere(value),
+                          documentRenewStore.numeroSere = value,
                       decoration: InputDecoration(
                         isDense: true,
                         labelText: "Numero Sere",
