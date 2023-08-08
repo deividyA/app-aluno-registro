@@ -28,7 +28,6 @@ class _LoginState extends State<Login> {
   initState() {
     initSharedPreferences();
     super.initState();
-    // Updated
   }
 
   Future<void> initSharedPreferences() async {
@@ -143,8 +142,7 @@ class _LoginState extends State<Login> {
                               })
                             : '',
                       },
-                      obscureText:
-                          !showPassword, // Set the obscureText based on showPassword.
+                      obscureText: !showPassword,
                       decoration: InputDecoration(
                         labelStyle: Theme.of(context).textTheme.bodyMedium,
                         isDense: true,
@@ -155,12 +153,10 @@ class _LoginState extends State<Login> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25),
                         ),
-                        // Add the IconButton to the suffixIcon property.
                         suffixIcon: IconButton(
                           onPressed: () {
                             setState(() {
-                              showPassword =
-                                  !showPassword; // Toggle the showPassword state.
+                              showPassword = !showPassword;
                             });
                           },
                           icon: Icon(
@@ -169,7 +165,6 @@ class _LoginState extends State<Login> {
                                 : Icons.visibility_off,
                             color:
                                 showPassword ? Colors.lightBlue : Colors.grey,
-                            // Use light blue color when the password is visible (enabled).
                           ),
                         ),
                       ),
@@ -227,13 +222,11 @@ class _LoginState extends State<Login> {
                       primary: Theme.of(context).colorScheme.inversePrimary,
                       onPrimary: Colors.white,
                       shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(8), // Rounded corners
+                        borderRadius: BorderRadius.circular(8),
                       ),
                     ),
                     child: SizedBox(
-                      width: double
-                          .infinity, // Button expands to the full width of its parent
+                      width: double.infinity,
                       child: Center(
                         child: Text(
                           'Login',

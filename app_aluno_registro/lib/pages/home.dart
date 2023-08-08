@@ -118,10 +118,10 @@ class _HomeState extends State<Home> {
         child: GestureDetector(
           onHorizontalDragUpdate: (details) {
             if (details.delta.dx > 0) {
-              // Swipe to the right
+              // Swipe direita
               _cardKey.currentState!.toggleCard();
             } else if (details.delta.dx < 0) {
-              // Swipe to the left
+              // Swipe esquerda
               _cardKey.currentState!.toggleCard();
             }
           },
@@ -158,9 +158,8 @@ class CardFront extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 1.0, // Set the desired width
-      height:
-          MediaQuery.of(context).size.height * 0.45, // Set the desired height
+      width: MediaQuery.of(context).size.width * 1.0,
+      height: MediaQuery.of(context).size.height * 0.45,
       child: Card(
         surfaceTintColor: Colors.white,
         color: Colors.white,
@@ -179,10 +178,9 @@ class CardFront extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Titulo', // Replace with your title
+                    'Titulo',
                     style: Theme.of(context).textTheme.displayMedium,
                   ),
-                  // Add any other widgets for the top right section
                 ],
               ),
               Flexible(

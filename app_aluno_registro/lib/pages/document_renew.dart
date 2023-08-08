@@ -183,11 +183,9 @@ class _DocumentRenewState extends State<DocumentRenew> {
                           // ignore: deprecated_member_use
                           onPrimary: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(3), // Rounded corners
+                            borderRadius: BorderRadius.circular(3),
                           ),
                         ),
-                        // ... Other button attributes
                         child: Text(
                           'Certidao',
                           style: Theme.of(context).textTheme.headlineSmall,
@@ -222,8 +220,7 @@ class _DocumentRenewState extends State<DocumentRenew> {
                           // ignore: deprecated_member_use
                           onPrimary: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(3), // Rounded corners
+                            borderRadius: BorderRadius.circular(3),
                           ),
                         ),
                         child: Text('Comprovante',
@@ -259,8 +256,7 @@ class _DocumentRenewState extends State<DocumentRenew> {
                           // ignore: deprecated_member_use
                           onPrimary: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(3), // Rounded corners
+                            borderRadius: BorderRadius.circular(3),
                           ),
                         ),
                         child: Text(
@@ -292,18 +288,15 @@ class _DocumentRenewState extends State<DocumentRenew> {
                         onPressed: () {
                           pickFotoFile();
                         },
-
                         style: ElevatedButton.styleFrom(
                           // ignore: deprecated_member_use
                           primary: Theme.of(context).colorScheme.inversePrimary,
                           // ignore: deprecated_member_use
                           onPrimary: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(3), // Rounded corners
+                            borderRadius: BorderRadius.circular(3),
                           ),
                         ),
-                        // ... Other button attributes
                         child: Text(
                           'Foto',
                           style: Theme.of(context).textTheme.headlineSmall,
@@ -332,7 +325,7 @@ class _DocumentRenewState extends State<DocumentRenew> {
                     // ignore: deprecated_member_use
                     onPrimary: Colors.white,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8), // Rounded corners
+                      borderRadius: BorderRadius.circular(8),
                     ),
                   ),
                   child: SizedBox(

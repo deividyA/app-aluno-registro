@@ -23,7 +23,6 @@ class _SignUpState extends State<SignUp> {
   void initState() {
     atribui_municipios();
     super.initState();
-    // Updated
   }
 
   final signUpStore = SignUpStore();
@@ -273,8 +272,7 @@ class _SignUpState extends State<SignUp> {
                             })
                           : '',
                     },
-                    obscureText:
-                        !showPassword, // Set the obscureText based on showPassword.
+                    obscureText: !showPassword,
                     decoration: InputDecoration(
                       isDense: true,
                       labelStyle: Theme.of(context).textTheme.bodyMedium,
@@ -284,12 +282,10 @@ class _SignUpState extends State<SignUp> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      // Add the IconButton to the suffixIcon property.
                       suffixIcon: IconButton(
                         onPressed: () {
                           setState(() {
-                            showPassword =
-                                !showPassword; // Toggle the showPassword state.
+                            showPassword = !showPassword;
                           });
                         },
                         icon: Icon(
@@ -717,11 +713,9 @@ class _SignUpState extends State<SignUp> {
                           // ignore: deprecated_member_use
                           onPrimary: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(3), // Rounded corners
+                            borderRadius: BorderRadius.circular(3),
                           ),
                         ),
-                        // ... Other button attributes
                         child: Text('Certidao',
                             style: Theme.of(context).textTheme.headlineSmall),
                       ),
@@ -754,8 +748,7 @@ class _SignUpState extends State<SignUp> {
                           // ignore: deprecated_member_use
                           onPrimary: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(3), // Rounded corners
+                            borderRadius: BorderRadius.circular(3),
                           ),
                         ),
                         child: Text(
@@ -792,8 +785,7 @@ class _SignUpState extends State<SignUp> {
                           // ignore: deprecated_member_use
                           onPrimary: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(3), // Rounded corners
+                            borderRadius: BorderRadius.circular(3),
                           ),
                         ),
                         child: Text('Residencia',
@@ -822,18 +814,15 @@ class _SignUpState extends State<SignUp> {
                         onPressed: () {
                           pickFotoFile();
                         },
-
                         style: ElevatedButton.styleFrom(
                           // ignore: deprecated_member_use
                           primary: Theme.of(context).colorScheme.inversePrimary,
                           // ignore: deprecated_member_use
                           onPrimary: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(3), // Rounded corners
+                            borderRadius: BorderRadius.circular(3),
                           ),
                         ),
-                        // ... Other button attributes
                         child: Text('Foto',
                             style: Theme.of(context).textTheme.headlineSmall),
                       ),
@@ -860,12 +849,11 @@ class _SignUpState extends State<SignUp> {
                     // ignore: deprecated_member_use
                     onPrimary: Colors.white,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8), // Rounded corners
+                      borderRadius: BorderRadius.circular(8),
                     ),
                   ),
                   child: SizedBox(
-                    width: double
-                        .infinity, // Button expands to the full width of its parent
+                    width: double.infinity,
                     child: Center(
                       child: Text(
                         'Cadastre-se',

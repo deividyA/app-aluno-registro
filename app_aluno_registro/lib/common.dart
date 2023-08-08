@@ -19,8 +19,7 @@ abstract class Common extends StatefulWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                const Color.fromARGB(255, 244, 67, 54)
-                    .withOpacity(1.0), // 100% red
+                const Color.fromARGB(255, 244, 67, 54).withOpacity(1.0),
                 const Color.fromARGB(255, 250, 126, 117).withOpacity(1.0),
               ],
             ),
@@ -30,25 +29,21 @@ abstract class Common extends StatefulWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
-            // Align title to the left
             children: [
-              Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.end, // Align icon to the right
-                  children: [
-                    Padding(
-                        padding: const EdgeInsets.only(right: 5, top: 5),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Icon(
-                            Icons.close,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                        ))
-                  ]),
+              Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                Padding(
+                    padding: const EdgeInsets.only(right: 5, top: 5),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Icon(
+                        Icons.close,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ))
+              ]),
               Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: Row(
@@ -109,7 +104,6 @@ abstract class Common extends StatefulWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
-              // Align title to the left
               children: [
                 if (!redirecionar)
                   Row(

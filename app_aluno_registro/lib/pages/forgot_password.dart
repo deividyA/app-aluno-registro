@@ -147,12 +147,11 @@ class _ForgotPassword extends State<ForgotPassword> {
                     // ignore: deprecated_member_use
                     onPrimary: Colors.white,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8), // Rounded corners
+                      borderRadius: BorderRadius.circular(8),
                     ),
                   ),
                   child: SizedBox(
-                    width: double
-                        .infinity, // Button expands to the full width of its parent
+                    width: double.infinity,
                     child: Center(
                       child: Text(
                         'Recuperar Senha',
