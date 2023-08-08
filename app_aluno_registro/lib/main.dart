@@ -3,28 +3,24 @@ import 'package:app_aluno_registro/pages/login.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// First code to be executed (by default)
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // Global theme that can be used
+    // Tema global
     return FutureBuilder<String?>(
       future: transmiteToken(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          // While the future is still resolving, you can show a loading indicator if desired.
+          // esperando a conexão
           return const CircularProgressIndicator();
         } else if (snapshot.hasError ||
             snapshot.data == null ||
             snapshot.data == '') {
-          // Handle the error or the case where the token is null or empty (not logged in)
           return MaterialApp(
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(
@@ -32,17 +28,36 @@ class MyApp extends StatelessWidget {
                 inversePrimary: const Color.fromARGB(255, 72, 149, 212),
               ),
               textTheme: const TextTheme(
+                //Utilizado em Titulos do AppBar
                 displayLarge: TextStyle(color: Colors.white, fontSize: 22),
-                displayMedium: TextStyle(color: Colors.white),
-                displaySmall: TextStyle(color: Colors.white),
-                bodyLarge: TextStyle(fontSize: 12),
+                //Utilizado em titulos de cards
+                displayMedium:
+                    TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                //Utilizado em body de cards
+                displaySmall: TextStyle(fontSize: 10),
+                //Utilizado em Formularios
+                bodyMedium: TextStyle(fontSize: 20),
+                //Botoes de arquivos
+                headlineSmall: TextStyle(fontSize: 20, color: Colors.white),
+                //Utilizado em Erros em forma de texto
+                labelLarge: TextStyle(
+                    color: Colors.red,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+                //labelMedium utilizado para links e redirecionamento
+                labelMedium: TextStyle(color: Colors.blue, fontSize: 18),
+                //Utilizado em Botão/Botoes
+                bodyLarge: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
               ),
               useMaterial3: true,
             ),
             home: const Login(),
           );
         } else {
-          // If the token exists and is not empty, navigate to Home
+          // se tem token vai pra home
           return MaterialApp(
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(
@@ -50,10 +65,29 @@ class MyApp extends StatelessWidget {
                 inversePrimary: const Color.fromARGB(255, 72, 149, 212),
               ),
               textTheme: const TextTheme(
+                //Utilizado em Titulos do AppBar
                 displayLarge: TextStyle(color: Colors.white, fontSize: 22),
-                displayMedium: TextStyle(color: Colors.white),
-                displaySmall: TextStyle(color: Colors.white),
-                bodyLarge: TextStyle(fontSize: 12),
+                //Utilizado em titulos de cards
+                displayMedium:
+                    TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                //Utilizado em body de cards
+                displaySmall: TextStyle(fontSize: 10),
+                //Utilizado em Formularios
+                bodyMedium: TextStyle(fontSize: 20),
+                //Botoes de arquivos
+                headlineSmall: TextStyle(fontSize: 20, color: Colors.white),
+                //Utilizado em Erros em forma de texto
+                labelLarge: TextStyle(
+                    color: Colors.red,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+                //labelMedium utilizado para links e redirecionamento
+                labelMedium: TextStyle(color: Colors.blue, fontSize: 18),
+                //Utilizado em Botão/Botoes
+                bodyLarge: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
               ),
               useMaterial3: true,
             ),

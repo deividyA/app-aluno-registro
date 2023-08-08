@@ -77,6 +77,8 @@ class _HomeState extends State<Home> {
   }
 
   pegaDadosAluno(token, numero_sere) async {
+    Common.displaySuccess(
+        context, 'Sucesso!!', 'Usuario Logado com Sucesso', false);
     dados = await aluno_repository.getAlunos(token, numero_sere);
     await prefs.setString('nome', dados[0]['nome']);
     await prefs.setString('escola', dados[0]['escola']);
@@ -173,15 +175,12 @@ class CardFront extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'Titulo', // Replace with your title
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.displayMedium,
                   ),
                   // Add any other widgets for the top right section
                 ],
@@ -193,42 +192,30 @@ class CardFront extends StatelessWidget {
                   children: [
                     Text(
                       'Escola: ${dados['escola']}',
-                      style: const TextStyle(
-                        fontSize: 10,
-                      ),
+                      style: Theme.of(context).textTheme.displaySmall,
                     ),
                     Text(
                       'Nome: ${dados['nome']}',
-                      style: const TextStyle(
-                        fontSize: 10,
-                      ),
+                      style: Theme.of(context).textTheme.displaySmall,
                     ),
                     Text(
                       'Pai: ${dados['pai']}',
-                      style: const TextStyle(
-                        fontSize: 10,
-                      ),
+                      style: Theme.of(context).textTheme.displaySmall,
                     ),
                     Text(
                       'Mãe: ${dados['mae']}',
-                      style: const TextStyle(
-                        fontSize: 10,
-                      ),
+                      style: Theme.of(context).textTheme.displaySmall,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           'Turno: ${dados['turno']}',
-                          style: const TextStyle(
-                            fontSize: 10,
-                          ),
+                          style: Theme.of(context).textTheme.displaySmall,
                         ),
                         Text(
                           'D.Nasc: ${DateFormat('dd/MM/yyyy').format(DateTime.parse(dados['data_nascimento']))}',
-                          style: const TextStyle(
-                            fontSize: 10,
-                          ),
+                          style: Theme.of(context).textTheme.displaySmall,
                         ),
                       ],
                     ),
@@ -237,15 +224,11 @@ class CardFront extends StatelessWidget {
                       children: [
                         Text(
                           'Série: ${dados['serie']}',
-                          style: const TextStyle(
-                            fontSize: 10,
-                          ),
+                          style: Theme.of(context).textTheme.displaySmall,
                         ),
                         Text(
                           'Sexo: ${dados['sexo']}',
-                          style: const TextStyle(
-                            fontSize: 10,
-                          ),
+                          style: Theme.of(context).textTheme.displaySmall,
                         ),
                       ],
                     ),
@@ -254,15 +237,11 @@ class CardFront extends StatelessWidget {
                       children: [
                         Text(
                           'SERE:${dados['numero_sere']}',
-                          style: const TextStyle(
-                            fontSize: 10,
-                          ),
+                          style: Theme.of(context).textTheme.displaySmall,
                         ),
                         Text(
                           'Fone: ${dados['fone_residencial']}',
-                          style: const TextStyle(
-                            fontSize: 10,
-                          ),
+                          style: Theme.of(context).textTheme.displaySmall,
                         ),
                       ],
                     ),

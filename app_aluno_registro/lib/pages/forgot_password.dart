@@ -1,4 +1,5 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, use_build_context_synchronously
+import 'package:app_aluno_registro/common.dart';
 import 'package:app_aluno_registro/repositories/ambiente_aluno_repository.dart';
 import 'package:app_aluno_registro/stores/forgot_password_store.dart';
 import 'package:flutter/material.dart';
@@ -44,79 +45,12 @@ class _ForgotPassword extends State<ForgotPassword> {
         response.forEach((key, value) {
           errorMessages.addAll(value);
         });
-        // ignore: use_build_context_synchronously
-        showDialog(
-          context: context,
-          builder: (context) => Dialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    const Color.fromARGB(255, 244, 67, 54)
-                        .withOpacity(1.0), // 100% red
-                    const Color.fromARGB(255, 250, 126, 117).withOpacity(1.0),
-                  ],
-                ),
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                // Align title to the left
-                children: [
-                  Row(
-                      mainAxisAlignment:
-                          MainAxisAlignment.end, // Align icon to the right
-                      children: [
-                        Padding(
-                            padding: const EdgeInsets.only(right: 5, top: 5),
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: const Icon(
-                                Icons.close,
-                                color: Colors.white,
-                                size: 20,
-                              ),
-                            ))
-                      ]),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 20),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Erro!!',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20, bottom: 20),
-                    child: Text(
-                      errorMessages.join(', ').toString(),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
+
+        Common.displayError(
+            context, 'Erro!', errorMessages.join(', ').toString());
+      } else {
+        Common.displaySuccess(
+            context, 'Sucesso!!', 'Siga os passos no seu e-mail', true);
       }
     } else {
       foi_tocado_email = true;
@@ -144,18 +78,26 @@ class _ForgotPassword extends State<ForgotPassword> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                const Text(
-                    'Preencha os dados de sua conta e lhe enviaremos um email de recuperação.'),
+                Padding(
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).size.height * 0.025),
+                  child: Text(
+                    'Preencha os dados de sua conta e lhe enviaremos um email de recuperação.',
+                    style: Theme.of(context).textTheme.displayMedium,
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Observer(builder: (_) {
                     return TextField(
+                      style: Theme.of(context).textTheme.bodyMedium,
                       controller: campo_numero_sere,
                       keyboardType: TextInputType.number,
                       autofocus: true,
                       onChanged: (value) =>
                           forgotPasswordStore.setNumeroSere(value),
                       decoration: InputDecoration(
+                        labelStyle: Theme.of(context).textTheme.bodyMedium,
                         isDense: true,
                         labelText: "Numero Sere",
                         errorText: forgotPasswordStore.validateNumeroSere(),
@@ -170,6 +112,7 @@ class _ForgotPassword extends State<ForgotPassword> {
                 ),
                 Observer(
                   builder: (_) => TextField(
+                    style: Theme.of(context).textTheme.bodyMedium,
                     controller: campo_email,
                     keyboardType: TextInputType.emailAddress,
                     onChanged: (value) => forgotPasswordStore.email = value,
@@ -181,6 +124,7 @@ class _ForgotPassword extends State<ForgotPassword> {
                           : '',
                     },
                     decoration: InputDecoration(
+                        labelStyle: Theme.of(context).textTheme.bodyMedium,
                         isDense: true,
                         label: const Text("Email"),
                         errorText: foi_tocado_email
@@ -206,14 +150,13 @@ class _ForgotPassword extends State<ForgotPassword> {
                       borderRadius: BorderRadius.circular(8), // Rounded corners
                     ),
                   ),
-                  child: const SizedBox(
+                  child: SizedBox(
                     width: double
                         .infinity, // Button expands to the full width of its parent
                     child: Center(
                       child: Text(
                         'Recuperar Senha',
-                        style: TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.bold),
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ),
                   ),

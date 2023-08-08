@@ -194,6 +194,9 @@ class _SignUpState extends State<SignUp> {
       if (errorMessages.length > 0) {
         Common.displayError(
             context, 'Erro!!', errorMessages.join(', ').toString());
+      } else {
+        Common.displaySuccess(
+            context, 'Sucesso!!', 'Você será redirecionado', true);
       }
     } else {
       foi_tocado_senha = true;
@@ -238,11 +241,13 @@ class _SignUpState extends State<SignUp> {
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Observer(builder: (_) {
                     return TextField(
+                      style: Theme.of(context).textTheme.bodyMedium,
                       controller: campo_numero_sere,
                       keyboardType: TextInputType.number,
                       autofocus: true,
                       onChanged: (value) => signUpStore.setNumeroSere(value),
                       decoration: InputDecoration(
+                        labelStyle: Theme.of(context).textTheme.bodyMedium,
                         isDense: true,
                         labelText: "Numero Sere",
                         errorText: signUpStore.validateNumeroSere(),
@@ -257,6 +262,7 @@ class _SignUpState extends State<SignUp> {
                 ),
                 Observer(builder: (_) {
                   return TextField(
+                    style: Theme.of(context).textTheme.bodyMedium,
                     controller: campo_senha,
                     keyboardType: TextInputType.visiblePassword,
                     onChanged: (value) => signUpStore.senha = value,
@@ -271,6 +277,7 @@ class _SignUpState extends State<SignUp> {
                         !showPassword, // Set the obscureText based on showPassword.
                     decoration: InputDecoration(
                       isDense: true,
+                      labelStyle: Theme.of(context).textTheme.bodyMedium,
                       labelText: "Senha",
                       errorText:
                           foi_tocado_senha ? signUpStore.validateSenha() : null,
@@ -300,6 +307,7 @@ class _SignUpState extends State<SignUp> {
                 }),
                 Observer(builder: (_) {
                   return TextField(
+                    style: Theme.of(context).textTheme.bodyMedium,
                     controller: campo_nome,
                     keyboardType: TextInputType.name,
                     onChanged: (value) => signUpStore.nome = value,
@@ -311,6 +319,7 @@ class _SignUpState extends State<SignUp> {
                           : '',
                     },
                     decoration: InputDecoration(
+                        labelStyle: Theme.of(context).textTheme.bodyMedium,
                         isDense: true,
                         labelText: "Nome",
                         errorText:
@@ -324,6 +333,7 @@ class _SignUpState extends State<SignUp> {
                 }),
                 Observer(
                   builder: (_) => TextField(
+                    style: Theme.of(context).textTheme.bodyMedium,
                     controller: campo_cpf,
                     keyboardType: const TextInputType.numberWithOptions(
                         decimal: false, signed: false),
@@ -338,6 +348,7 @@ class _SignUpState extends State<SignUp> {
                           : '',
                     },
                     decoration: InputDecoration(
+                        labelStyle: Theme.of(context).textTheme.bodyMedium,
                         isDense: true,
                         label: const Text("CPF"),
                         errorText:
@@ -351,6 +362,7 @@ class _SignUpState extends State<SignUp> {
                 ),
                 Observer(
                   builder: (_) => TextField(
+                    style: Theme.of(context).textTheme.bodyMedium,
                     controller: campo_rg,
                     keyboardType: TextInputType.number,
                     onChanged: (value) => signUpStore.rg = value,
@@ -363,6 +375,7 @@ class _SignUpState extends State<SignUp> {
                     },
                     decoration: InputDecoration(
                         isDense: true,
+                        labelStyle: Theme.of(context).textTheme.bodyMedium,
                         label: const Text("Rg"),
                         errorText:
                             foi_tocado_rg ? signUpStore.validateRg() : null,
@@ -375,6 +388,7 @@ class _SignUpState extends State<SignUp> {
                 ),
                 Observer(
                   builder: (_) => MaskedTextField(
+                    style: Theme.of(context).textTheme.bodyMedium,
                     mask: "##/##/####",
                     controller: campo_nascimento,
                     keyboardType: TextInputType.datetime,
@@ -391,6 +405,7 @@ class _SignUpState extends State<SignUp> {
                     },
                     decoration: InputDecoration(
                         isDense: true,
+                        labelStyle: Theme.of(context).textTheme.bodyMedium,
                         label: const Text("Data de Nascimento"),
                         errorText: foi_tocado_nascimento
                             ? signUpStore.validateDataNascimento()
@@ -404,6 +419,7 @@ class _SignUpState extends State<SignUp> {
                 ),
                 Observer(
                   builder: (_) => TextField(
+                    style: Theme.of(context).textTheme.bodyMedium,
                     controller: campo_telefone,
                     inputFormatters: [mask_telefone],
                     onChanged: (value) =>
@@ -419,6 +435,7 @@ class _SignUpState extends State<SignUp> {
                     },
                     decoration: InputDecoration(
                         isDense: true,
+                        labelStyle: Theme.of(context).textTheme.bodyMedium,
                         label: const Text("Telefone"),
                         errorText: foi_tocado_telefone
                             ? signUpStore.validateTelefone()
@@ -432,6 +449,7 @@ class _SignUpState extends State<SignUp> {
                 ),
                 Observer(
                   builder: (_) => TextField(
+                    style: Theme.of(context).textTheme.bodyMedium,
                     controller: campo_email,
                     keyboardType: TextInputType.emailAddress,
                     onChanged: (value) => signUpStore.email = value,
@@ -444,6 +462,7 @@ class _SignUpState extends State<SignUp> {
                     },
                     decoration: InputDecoration(
                         isDense: true,
+                        labelStyle: Theme.of(context).textTheme.bodyMedium,
                         label: const Text("Email"),
                         errorText: foi_tocado_email
                             ? signUpStore.validateEmail()
@@ -473,6 +492,7 @@ class _SignUpState extends State<SignUp> {
                     },
                     decoration: InputDecoration(
                         isDense: true,
+                        labelStyle: Theme.of(context).textTheme.bodyMedium,
                         label: const Text("Sexo"),
                         errorText:
                             foi_tocado_sexo ? signUpStore.validateSexo() : null,
@@ -494,6 +514,7 @@ class _SignUpState extends State<SignUp> {
                 const Text(' '),
                 Observer(
                   builder: (_) => TextField(
+                    style: Theme.of(context).textTheme.bodyMedium,
                     controller: campo_pai,
                     onChanged: (value) => signUpStore.pai = value,
                     onTap: () => {
@@ -505,6 +526,7 @@ class _SignUpState extends State<SignUp> {
                     },
                     decoration: InputDecoration(
                         isDense: true,
+                        labelStyle: Theme.of(context).textTheme.bodyMedium,
                         label: const Text("Pai"),
                         errorText:
                             foi_tocado_pai ? signUpStore.validatePai() : null,
@@ -517,6 +539,7 @@ class _SignUpState extends State<SignUp> {
                 ),
                 Observer(
                   builder: (_) => TextField(
+                    style: Theme.of(context).textTheme.bodyMedium,
                     controller: campo_mae,
                     onChanged: (value) => signUpStore.mae = value,
                     onTap: () => {
@@ -528,6 +551,7 @@ class _SignUpState extends State<SignUp> {
                     },
                     decoration: InputDecoration(
                         isDense: true,
+                        labelStyle: Theme.of(context).textTheme.bodyMedium,
                         label: const Text("Mãe"),
                         errorText:
                             foi_tocado_mae ? signUpStore.validateMae() : null,
@@ -540,6 +564,7 @@ class _SignUpState extends State<SignUp> {
                 ),
                 Observer(
                   builder: (_) => TextField(
+                    style: Theme.of(context).textTheme.bodyMedium,
                     inputFormatters: [mask_cep],
                     controller: campo_cep,
                     keyboardType: TextInputType.number,
@@ -574,6 +599,7 @@ class _SignUpState extends State<SignUp> {
                     },
                     decoration: InputDecoration(
                         isDense: true,
+                        labelStyle: Theme.of(context).textTheme.bodyMedium,
                         label: const Text("CEP"),
                         errorText:
                             foi_tocado_cep ? signUpStore.validateCep() : null,
@@ -606,6 +632,7 @@ class _SignUpState extends State<SignUp> {
                     },
                     decoration: InputDecoration(
                         isDense: true,
+                        labelStyle: Theme.of(context).textTheme.bodyMedium,
                         label: const Text("Municipio"),
                         errorText: foi_tocado_municipio
                             ? signUpStore.validateMunicipio()
@@ -624,6 +651,7 @@ class _SignUpState extends State<SignUp> {
                 const Text(' '),
                 Observer(
                   builder: (_) => TextField(
+                    style: Theme.of(context).textTheme.bodyMedium,
                     controller: campo_endereco,
                     onChanged: (value) => signUpStore.endereco = value,
                     onTap: () => {
@@ -635,6 +663,7 @@ class _SignUpState extends State<SignUp> {
                     },
                     decoration: InputDecoration(
                         isDense: true,
+                        labelStyle: Theme.of(context).textTheme.bodyMedium,
                         label: const Text("Endereço"),
                         errorText: foi_tocado_endereco
                             ? signUpStore.validateEndereco()
@@ -648,6 +677,7 @@ class _SignUpState extends State<SignUp> {
                 ),
                 Observer(
                   builder: (_) => TextField(
+                    style: Theme.of(context).textTheme.bodyMedium,
                     controller: campo_bairro,
                     onChanged: (value) => signUpStore.bairro = value,
                     onTap: () => {
@@ -659,6 +689,7 @@ class _SignUpState extends State<SignUp> {
                     },
                     decoration: InputDecoration(
                         isDense: true,
+                        labelStyle: Theme.of(context).textTheme.bodyMedium,
                         label: const Text("Bairro"),
                         errorText: foi_tocado_bairro
                             ? signUpStore.validateBairro()
@@ -691,7 +722,8 @@ class _SignUpState extends State<SignUp> {
                           ),
                         ),
                         // ... Other button attributes
-                        child: const Text('Certidao'),
+                        child: Text('Certidao',
+                            style: Theme.of(context).textTheme.headlineSmall),
                       ),
                     ),
                     if (certidaoFile != null)
@@ -726,7 +758,10 @@ class _SignUpState extends State<SignUp> {
                                 BorderRadius.circular(3), // Rounded corners
                           ),
                         ),
-                        child: const Text('Comprovante'),
+                        child: Text(
+                          'Comprovante',
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
                       ),
                     ),
                     if (comprovanteMatriculaFile != null)
@@ -761,7 +796,8 @@ class _SignUpState extends State<SignUp> {
                                 BorderRadius.circular(3), // Rounded corners
                           ),
                         ),
-                        child: const Text('Residencia'),
+                        child: Text('Residencia',
+                            style: Theme.of(context).textTheme.headlineSmall),
                       ),
                     ),
                     if (comprovanteResidenciaFile != null)
@@ -798,7 +834,8 @@ class _SignUpState extends State<SignUp> {
                           ),
                         ),
                         // ... Other button attributes
-                        child: const Text('Foto'),
+                        child: Text('Foto',
+                            style: Theme.of(context).textTheme.headlineSmall),
                       ),
                     ),
                     if (fotoFile != null)
@@ -826,14 +863,13 @@ class _SignUpState extends State<SignUp> {
                       borderRadius: BorderRadius.circular(8), // Rounded corners
                     ),
                   ),
-                  child: const SizedBox(
+                  child: SizedBox(
                     width: double
                         .infinity, // Button expands to the full width of its parent
                     child: Center(
                       child: Text(
                         'Cadastre-se',
-                        style: TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.bold),
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ),
                   ),

@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use, use_build_context_synchronously, non_constant_identifier_names
 
+import 'package:app_aluno_registro/common.dart';
 import 'package:app_aluno_registro/pages/document_renew.dart';
 import 'package:app_aluno_registro/pages/forgot_password.dart';
 import 'package:app_aluno_registro/pages/home.dart';
@@ -57,6 +58,7 @@ class _LoginState extends State<Login> {
           token = resposta['token'];
           await prefs.setString('token', token!);
           await prefs.setInt('numero_sere', login_store.numeroSere!);
+
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => const Home()),
@@ -100,22 +102,23 @@ class _LoginState extends State<Login> {
                 children: [
                   Observer(builder: (_) {
                     return Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
+                        padding: const EdgeInsets.only(bottom: 15),
                         child: Text(
                           errorMessages.isNotEmpty
                               ? errorMessages.join(', ').toString()
                               : '',
-                          style:
-                              const TextStyle(color: Colors.red, fontSize: 12),
+                          style: Theme.of(context).textTheme.labelLarge,
                         ));
                   }),
                   Observer(builder: (_) {
                     return TextField(
+                      style: Theme.of(context).textTheme.bodyMedium,
                       controller: campo_login,
                       keyboardType: TextInputType.number,
                       autofocus: true,
                       onChanged: (value) => login_store.setNumeroSere(value),
                       decoration: InputDecoration(
+                        labelStyle: Theme.of(context).textTheme.bodyMedium,
                         isDense: true,
                         labelText: "Numero Sere",
                         errorText: login_store.validateNumeroSere(),
@@ -129,6 +132,7 @@ class _LoginState extends State<Login> {
                   }),
                   Observer(builder: (_) {
                     return TextField(
+                      style: Theme.of(context).textTheme.bodyMedium,
                       controller: campo_senha,
                       keyboardType: TextInputType.visiblePassword,
                       onChanged: (value) => login_store.senha = value,
@@ -142,6 +146,7 @@ class _LoginState extends State<Login> {
                       obscureText:
                           !showPassword, // Set the obscureText based on showPassword.
                       decoration: InputDecoration(
+                        labelStyle: Theme.of(context).textTheme.bodyMedium,
                         isDense: true,
                         labelText: "Senha",
                         errorText: foi_tocado_senha
@@ -176,7 +181,10 @@ class _LoginState extends State<Login> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
+                          padding: EdgeInsets.only(
+                              bottom:
+                                  MediaQuery.of(context).size.height * 0.025,
+                              top: MediaQuery.of(context).size.height * 0.01),
                           child: InkWell(
                             onTap: () {
                               Navigator.push(
@@ -186,17 +194,15 @@ class _LoginState extends State<Login> {
                                         const DocumentRenew()),
                               );
                             },
-                            child: const Text(
-                              'Renovar documentos',
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 10,
-                              ),
-                            ),
+                            child: Text('Renovar documentos',
+                                style: Theme.of(context).textTheme.labelMedium),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
+                          padding: EdgeInsets.only(
+                              bottom:
+                                  MediaQuery.of(context).size.height * 0.025,
+                              top: MediaQuery.of(context).size.height * 0.01),
                           child: InkWell(
                             onTap: () {
                               Navigator.push(
@@ -206,12 +212,9 @@ class _LoginState extends State<Login> {
                                         const ForgotPassword()),
                               );
                             },
-                            child: const Text(
+                            child: Text(
                               'Esqueci minha senha',
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 10,
-                              ),
+                              style: Theme.of(context).textTheme.labelMedium,
                             ),
                           ),
                         ),
@@ -228,14 +231,13 @@ class _LoginState extends State<Login> {
                             BorderRadius.circular(8), // Rounded corners
                       ),
                     ),
-                    child: const SizedBox(
+                    child: SizedBox(
                       width: double
                           .infinity, // Button expands to the full width of its parent
                       child: Center(
                         child: Text(
                           'Login',
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ),
                     ),
@@ -250,12 +252,9 @@ class _LoginState extends State<Login> {
                               builder: (context) => const SignUp()),
                         );
                       },
-                      child: const Text(
+                      child: Text(
                         'Ainda não tem um cadastro? Registre-se',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: 10,
-                        ),
+                        style: Theme.of(context).textTheme.labelMedium,
                       ),
                     ),
                   ),

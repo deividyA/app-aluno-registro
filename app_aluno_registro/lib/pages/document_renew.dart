@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:app_aluno_registro/common.dart';
+import 'package:app_aluno_registro/pages/Login.dart';
 
 import 'package:app_aluno_registro/repositories/ambiente_aluno_repository.dart';
 import 'package:flutter/material.dart';
@@ -113,6 +114,9 @@ class _DocumentRenewState extends State<DocumentRenew> {
         // ignore: use_build_context_synchronously
         Common.displayError(
             context, 'Erro!!', errorMessages.join(', ').toString());
+      } else {
+        Common.displaySuccess(context, 'Sucesso!',
+            'Seus documentos foram enviados para revisão', true);
       }
     } else {
       setState(() {});
@@ -143,6 +147,7 @@ class _DocumentRenewState extends State<DocumentRenew> {
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Observer(builder: (_) {
                     return TextField(
+                      style: Theme.of(context).textTheme.bodyMedium,
                       controller: campo_numero_sere,
                       keyboardType: TextInputType.number,
                       autofocus: true,
@@ -150,6 +155,7 @@ class _DocumentRenewState extends State<DocumentRenew> {
                           documentRenewStore.numeroSere = value,
                       decoration: InputDecoration(
                         isDense: true,
+                        labelStyle: Theme.of(context).textTheme.bodyMedium,
                         labelText: "Numero Sere",
                         errorText: documentRenewStore.validateNumeroSere(),
                         border: OutlineInputBorder(
@@ -182,7 +188,10 @@ class _DocumentRenewState extends State<DocumentRenew> {
                           ),
                         ),
                         // ... Other button attributes
-                        child: const Text('Certidao'),
+                        child: Text(
+                          'Certidao',
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
                       ),
                     ),
                     if (foi_tocado_certidao && certidaoFile != null)
@@ -197,7 +206,6 @@ class _DocumentRenewState extends State<DocumentRenew> {
                     ),
                   ],
                 ),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -218,7 +226,8 @@ class _DocumentRenewState extends State<DocumentRenew> {
                                 BorderRadius.circular(3), // Rounded corners
                           ),
                         ),
-                        child: const Text('Comprovante'),
+                        child: Text('Comprovante',
+                            style: Theme.of(context).textTheme.headlineSmall),
                       ),
                     ),
                     if (foi_tocado_comprovante_matricula &&
@@ -234,7 +243,6 @@ class _DocumentRenewState extends State<DocumentRenew> {
                     ),
                   ],
                 ),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -255,7 +263,10 @@ class _DocumentRenewState extends State<DocumentRenew> {
                                 BorderRadius.circular(3), // Rounded corners
                           ),
                         ),
-                        child: const Text('Residencia'),
+                        child: Text(
+                          'Residencia',
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
                       ),
                     ),
                     if (foi_tocado_comprovante_residencia &&
@@ -271,7 +282,6 @@ class _DocumentRenewState extends State<DocumentRenew> {
                     ),
                   ],
                 ),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -294,7 +304,10 @@ class _DocumentRenewState extends State<DocumentRenew> {
                           ),
                         ),
                         // ... Other button attributes
-                        child: const Text('Foto'),
+                        child: Text(
+                          'Foto',
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
                       ),
                     ),
                     if (foi_tocado_foto && fotoFile != null)
@@ -309,31 +322,6 @@ class _DocumentRenewState extends State<DocumentRenew> {
                     ),
                   ],
                 ),
-
-                // Observer(
-                //   builder: (_) => TextField(
-                //     controller: campo_bairro,
-                //     onChanged: (value) => documentRenewStore.bairro = value,
-                //     onTap: () => {
-                //       foi_tocado_bairro == false
-                //           ? setState(() {
-                //               foi_tocado_bairro = true;
-                //             })
-                //           : '',
-                //     },
-                //     decoration: InputDecoration(
-                //         isDense: true,
-                //         label: const Text("Bairro"),
-                //         errorText: foi_tocado_bairro
-                //             ? documentRenewStore.validateBairro()
-                //             : null,
-                //         border: OutlineInputBorder(
-                //           borderRadius: BorderRadius.circular(5),
-                //         )),
-                //     maxLines: 1,
-                //     maxLength: 60,
-                //   ),
-                // ),
                 ElevatedButton(
                   onPressed: () {
                     getControllerValues();
@@ -347,13 +335,12 @@ class _DocumentRenewState extends State<DocumentRenew> {
                       borderRadius: BorderRadius.circular(8), // Rounded corners
                     ),
                   ),
-                  child: const SizedBox(
+                  child: SizedBox(
                     width: double.infinity,
                     child: Center(
                       child: Text(
                         'Cadastrar',
-                        style: TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.bold),
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ),
                   ),
