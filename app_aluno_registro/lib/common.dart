@@ -94,8 +94,8 @@ abstract class Common extends StatefulWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color.fromARGB(255, 54, 82, 244).withOpacity(1.0),
-                  Color.fromARGB(255, 117, 159, 250).withOpacity(1.0),
+                  const Color.fromARGB(255, 54, 82, 244).withOpacity(1.0),
+                  const Color.fromARGB(255, 117, 159, 250).withOpacity(1.0),
                 ],
               ),
               color: Colors.blue,
@@ -154,10 +154,10 @@ abstract class Common extends StatefulWidget {
                     alignment: Alignment.bottomRight,
                     child: TextButton(
                       onPressed: () {
-                        Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => Login()));
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const Login()));
                       },
-                      child: Text(
+                      child: const Text(
                         "OK",
                         style: TextStyle(
                           color: Colors.white,

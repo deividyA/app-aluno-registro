@@ -1,10 +1,6 @@
-// ignore_for_file: non_constant_identifier_names, depend_on_referenced_packages
-
+// ignore_for_file: non_constant_identifier_names, depend_on_referenced_packages, use_build_context_synchronously
 import 'dart:io';
-
 import 'package:app_aluno_registro/common.dart';
-import 'package:app_aluno_registro/pages/Login.dart';
-
 import 'package:app_aluno_registro/repositories/ambiente_aluno_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:app_aluno_registro/stores/document_renew_store.dart';
@@ -40,6 +36,7 @@ class _DocumentRenewState extends State<DocumentRenew> {
   bool foi_tocado_comprovante_residencia = false;
   bool foi_tocado_foto = false;
   bool foi_tocado_comprovante_matricula = false;
+  bool enviar = true;
 
   Future<void> pickCertidaoFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -94,6 +91,7 @@ class _DocumentRenewState extends State<DocumentRenew> {
   }
 
   getControllerValues() async {
+    enviar = false;
     if (documentRenewStore.isValid) {
       dados = {
         'numero_sere': documentRenewStore.numeroSere,
@@ -111,7 +109,6 @@ class _DocumentRenewState extends State<DocumentRenew> {
           errorMessages.addAll(value);
         });
 
-        // ignore: use_build_context_synchronously
         Common.displayError(
             context, 'Erro!!', errorMessages.join(', ').toString());
       } else {
@@ -121,6 +118,7 @@ class _DocumentRenewState extends State<DocumentRenew> {
     } else {
       setState(() {});
     }
+    enviar = true;
   }
 
   @override
@@ -316,9 +314,11 @@ class _DocumentRenewState extends State<DocumentRenew> {
                   ],
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    getControllerValues();
-                  },
+                  onPressed: enviar == true
+                      ? () {
+                          getControllerValues();
+                        }
+                      : null,
                   style: ElevatedButton.styleFrom(
                     // ignore: deprecated_member_use
                     primary: Theme.of(context).colorScheme.inversePrimary,

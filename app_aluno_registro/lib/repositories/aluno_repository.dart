@@ -6,7 +6,7 @@ class AlunoRepository {
   // ignore: non_constant_identifier_names
   Future<List> getAlunos(String token, int numero_sere) async {
     final response = await http.get(
-      Uri.parse('${url_bzs_api_local}carteira_completa/$numero_sere'),
+      Uri.parse('${url_bzs_api}carteira_completa/$numero_sere'),
       headers: <String, String>{
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json; charset=UTF-8',

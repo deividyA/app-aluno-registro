@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, depend_on_referenced_packages
+// ignore_for_file: non_constant_identifier_names, depend_on_referenced_packages, use_build_context_synchronously
 import 'dart:io';
 import 'package:app_aluno_registro/common.dart';
 import 'package:app_aluno_registro/repositories/cep_repository.dart';
@@ -133,12 +133,14 @@ class _SignUpState extends State<SignUp> {
   final campo_endereco = TextEditingController();
   final campo_bairro = TextEditingController();
   final campo_cep = TextEditingController();
+  bool enviar = true;
 
   dynamic dados_cep;
   dynamic dados;
   dynamic dados_documentos;
 
   getControllerValues() async {
+    enviar = false;
     if (signUpStore.isValid) {
       dados = {
         'numero_sere': signUpStore.numeroSere,
@@ -190,7 +192,7 @@ class _SignUpState extends State<SignUp> {
         });
       }
 
-      if (errorMessages.length > 0) {
+      if (errorMessages.isNotEmpty) {
         Common.displayError(
             context, 'Erro!!', errorMessages.join(', ').toString());
       } else {
@@ -214,6 +216,7 @@ class _SignUpState extends State<SignUp> {
       foi_tocado_cep = true;
       setState(() {});
     }
+    enviar = true;
   }
 
   @override
@@ -840,9 +843,11 @@ class _SignUpState extends State<SignUp> {
                   ],
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    getControllerValues();
-                  },
+                  onPressed: enviar == true
+                      ? () {
+                          getControllerValues();
+                        }
+                      : null,
                   style: ElevatedButton.styleFrom(
                     // ignore: deprecated_member_use
                     primary: Theme.of(context).colorScheme.inversePrimary,

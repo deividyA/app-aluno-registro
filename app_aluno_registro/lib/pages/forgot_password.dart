@@ -26,12 +26,14 @@ class _ForgotPassword extends State<ForgotPassword> {
   dynamic index_municipio_cep;
 
   bool foi_tocado_email = false;
+  bool enviar = true;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final campo_numero_sere = TextEditingController();
   final campo_email = TextEditingController();
   dynamic dados;
 
   getControllerValues() async {
+    enviar = false;
     if (forgotPasswordStore.isValid) {
       dados = {
         'numero_sere': forgotPasswordStore.numeroSere,
@@ -56,6 +58,7 @@ class _ForgotPassword extends State<ForgotPassword> {
       foi_tocado_email = true;
       setState(() {});
     }
+    enviar = true;
   }
 
   @override
@@ -138,9 +141,11 @@ class _ForgotPassword extends State<ForgotPassword> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    getControllerValues();
-                  },
+                  onPressed: enviar == true
+                      ? () {
+                          getControllerValues();
+                        }
+                      : null,
                   style: ElevatedButton.styleFrom(
                     // ignore: deprecated_member_use
                     primary: Theme.of(context).colorScheme.inversePrimary,

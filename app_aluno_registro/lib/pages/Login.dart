@@ -1,6 +1,4 @@
-// ignore_for_file: deprecated_member_use, use_build_context_synchronously, non_constant_identifier_names
-
-import 'package:app_aluno_registro/common.dart';
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously, non_constant_identifier_names, file_names
 import 'package:app_aluno_registro/pages/document_renew.dart';
 import 'package:app_aluno_registro/pages/forgot_password.dart';
 import 'package:app_aluno_registro/pages/home.dart';
@@ -40,18 +38,21 @@ class _LoginState extends State<Login> {
   final campo_senha = TextEditingController();
   bool showPassword = false;
   bool foi_tocado_senha = false;
+  bool enviar = true;
   dynamic dados;
 
   List<dynamic> errorMessages = [];
 
   Future<void> getControllerValues() async {
+    enviar = false;
     if (login_store.isValid) {
       dados = {
         'numero_sere': login_store.numeroSere,
         'senha': login_store.senha,
       };
+
       var resposta = await ambiente_aluno_repository.loginAluno(dados);
-      print(resposta);
+
       if (resposta.runtimeType != String) {
         if (resposta['token'] != null) {
           token = resposta['token'];
@@ -76,6 +77,7 @@ class _LoginState extends State<Login> {
       foi_tocado_senha = true;
       setState(() {});
     }
+    enviar = true;
   }
 
   @override
@@ -86,22 +88,31 @@ class _LoginState extends State<Login> {
         child: Align(
           alignment: Alignment.center,
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.45,
-            width: MediaQuery.of(context).size.width * 0.8,
+            height: MediaQuery.of(context).size.height * 0.6,
+            width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20.0),
             ),
             margin: const EdgeInsets.all(15.0),
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.only(left: 20.0, right: 20.0),
             child: Form(
               key: _formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Padding(
+                    padding: EdgeInsets.all(0),
+                    child: Image.asset(
+                        height: MediaQuery.of(context).size.height * 0.09,
+                        fit: BoxFit.fitHeight,
+                        'assets/images/LOGO_BZS.png'),
+                  ),
                   Observer(builder: (_) {
                     return Padding(
-                        padding: const EdgeInsets.only(bottom: 15),
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).size.height * 0.030,
+                            top: MediaQuery.of(context).size.height * 0.030),
                         child: Text(
                           errorMessages.isNotEmpty
                               ? errorMessages.join(', ').toString()
@@ -178,8 +189,8 @@ class _LoginState extends State<Login> {
                         Padding(
                           padding: EdgeInsets.only(
                               bottom:
-                                  MediaQuery.of(context).size.height * 0.025,
-                              top: MediaQuery.of(context).size.height * 0.01),
+                                  MediaQuery.of(context).size.height * 0.005,
+                              top: MediaQuery.of(context).size.height * 0.005),
                           child: InkWell(
                             onTap: () {
                               Navigator.push(
@@ -196,8 +207,8 @@ class _LoginState extends State<Login> {
                         Padding(
                           padding: EdgeInsets.only(
                               bottom:
-                                  MediaQuery.of(context).size.height * 0.025,
-                              top: MediaQuery.of(context).size.height * 0.01),
+                                  MediaQuery.of(context).size.height * 0.005,
+                              top: MediaQuery.of(context).size.height * 0.005),
                           child: InkWell(
                             onTap: () {
                               Navigator.push(
@@ -215,9 +226,11 @@ class _LoginState extends State<Login> {
                         ),
                       ]),
                   ElevatedButton(
-                    onPressed: () {
-                      getControllerValues();
-                    },
+                    onPressed: enviar == true
+                        ? () {
+                            getControllerValues();
+                          }
+                        : null,
                     style: ElevatedButton.styleFrom(
                       primary: Theme.of(context).colorScheme.inversePrimary,
                       onPrimary: Colors.white,

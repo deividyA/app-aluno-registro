@@ -2,9 +2,11 @@
 
 import 'package:app_aluno_registro/common.dart';
 import 'package:app_aluno_registro/pages/login.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:app_aluno_registro/repositories/aluno_repository.dart';
 import 'package:app_aluno_registro/stores/login_store.dart';
+import 'package:app_aluno_registro/stores/home_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:intl/intl.dart';
@@ -24,6 +26,7 @@ class _HomeState extends State<Home> {
   final GlobalKey<FlipCardState> _cardKey = GlobalKey<FlipCardState>();
   final aluno_repository = AlunoRepository();
   final login_store = LoginStore();
+  final home_store = HomeStore();
   dynamic dados;
 
   @override
@@ -74,6 +77,10 @@ class _HomeState extends State<Home> {
     } else {
       await pegaDadosAluno(token, numero_sere);
     }
+
+    Future.delayed(const Duration(seconds: 2), () {
+      home_store.welcome_card = false;
+    });
   }
 
   pegaDadosAluno(token, numero_sere) async {
@@ -114,35 +121,78 @@ class _HomeState extends State<Home> {
           style: Theme.of(context).textTheme.displayLarge,
         ),
       ),
-      body: Center(
-        child: GestureDetector(
-          onHorizontalDragUpdate: (details) {
-            if (details.delta.dx > 0) {
-              // Swipe direita
-              _cardKey.currentState!.toggleCard();
-            } else if (details.delta.dx < 0) {
-              // Swipe esquerda
-              _cardKey.currentState!.toggleCard();
-            }
-          },
-          child: FutureBuilder<dynamic>(
-            future: initSharedPreferences(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
-              } else if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else if (dados != null) {
-                return FlipCard(
-                  key: _cardKey,
-                  direction: FlipDirection.HORIZONTAL,
-                  front: CardFront(dados: dados[0]),
-                  back: CardBack(dados: dados[0]),
-                );
-              } else {
-                return const Text('No data found.');
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/HOME_BACKGROUND.jpg"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: GestureDetector(
+            onHorizontalDragUpdate: (details) {
+              if (details.delta.dx > 0) {
+                // Swipe direita
+                _cardKey.currentState!.toggleCard();
+              } else if (details.delta.dx < 0) {
+                // Swipe esquerda
+                _cardKey.currentState!.toggleCard();
               }
             },
+            child: Column(
+              children: [
+                FutureBuilder<dynamic>(
+                  future: initSharedPreferences(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else if (dados != null) {
+                      return Column(children: [
+                        Observer(builder: (_) {
+                          return AnimatedOpacity(
+                            opacity: home_store.welcome_card ? 1.0 : 0.0,
+                            duration: const Duration(seconds: 2),
+                            child: Card(
+                              surfaceTintColor:
+                                  Theme.of(context).colorScheme.inversePrimary,
+                              color:
+                                  Theme.of(context).colorScheme.inversePrimary,
+                              elevation: 4.0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.9,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.2,
+                                alignment: Alignment.center,
+                                child: Center(
+                                  child: Text(
+                                      "Boas Vindas!! :) \n ${dados[0]['nome']}",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayLarge),
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                        FlipCard(
+                          key: _cardKey,
+                          direction: FlipDirection.HORIZONTAL,
+                          front: CardFront(dados: dados[0]),
+                          back: CardBack(dados: dados[0]),
+                        ),
+                      ]);
+                    } else {
+                      return const Text('No data found.');
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -4,7 +4,7 @@ import 'repositories_variables.dart';
 
 class CarteiraRepository {
   Future<Carteira> getCarteira() async {
-    final response = await get(Uri.parse('${url_bzs_api_local}aluno_usuario'));
+    final response = await get(Uri.parse('${url_bzs_api}aluno_usuario'));
     if (response.statusCode != 200) {
       throw Exception("Erro ao buscar os dados da Carteira");
     }

@@ -1,5 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
 import 'dart:convert';
-import 'dart:io';
 import 'package:app_aluno_registro/models/AmbienteAluno.dart';
 import 'package:http/http.dart';
 import 'repositories_variables.dart';
@@ -9,7 +9,7 @@ import 'package:http_parser/http_parser.dart';
 class AmbienteAlunoRepository {
   Future<List> getMunicipios() async {
     final response =
-        await get(Uri.parse('${url_bzs_api_local}municipios_cadastrados'));
+        await get(Uri.parse('${url_bzs_api}municipios_cadastrados'));
     if (response.statusCode != 200) {
       throw Exception("Erro ao buscar os dados dos Municipios");
     }
@@ -24,7 +24,7 @@ class AmbienteAlunoRepository {
   Future<dynamic> cadastraAluno(Map<String, dynamic> dados) async {
     try {
       final response = await http.post(
-        Uri.parse('$url_bzs_api_local' 'ste/aluno_usuario'),
+        Uri.parse('$url_bzs_api' 'ste/aluno_usuario'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -35,7 +35,6 @@ class AmbienteAlunoRepository {
       } else if (response.statusCode != 200) {
         final jsonResponse = jsonDecode(response.body);
         final errorMessages = jsonResponse['message'];
-
         return errorMessages;
       } else {
         return 'Unexpected error occurred.';
@@ -48,7 +47,7 @@ class AmbienteAlunoRepository {
   Future<dynamic> loginAluno(Map<String, dynamic> dados) async {
     try {
       final response = await http.post(
-        Uri.parse('$url_bzs_api_local' 'ste/login_aluno_usuario'),
+        Uri.parse('$url_bzs_api' 'ste/login_aluno_usuario'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -65,7 +64,7 @@ class AmbienteAlunoRepository {
     try {
       var request = http.MultipartRequest(
         'POST',
-        Uri.parse('$url_bzs_api_local' 'ste/renew_documentation'),
+        Uri.parse('$url_bzs_api' 'ste/renew_documentation'),
       );
 
       request.fields['numero_sere'] = dados['numero_sere'];
