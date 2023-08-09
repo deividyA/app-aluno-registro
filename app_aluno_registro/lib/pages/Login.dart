@@ -102,7 +102,7 @@ class _LoginState extends State<Login> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(0),
+                    padding: const EdgeInsets.all(0),
                     child: Image.asset(
                         height: MediaQuery.of(context).size.height * 0.09,
                         fit: BoxFit.fitHeight,

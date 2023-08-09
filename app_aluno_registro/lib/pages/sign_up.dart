@@ -2,12 +2,13 @@
 import 'dart:io';
 import 'package:app_aluno_registro/common.dart';
 import 'package:app_aluno_registro/repositories/cep_repository.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:app_aluno_registro/repositories/ambiente_aluno_repository.dart';
 import 'package:app_aluno_registro/stores/sign_up_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:image_picker_platform_interface/image_picker_platform_interface.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:masked_text/masked_text.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
@@ -26,6 +27,7 @@ class _SignUpState extends State<SignUp> {
   }
 
   final signUpStore = SignUpStore();
+  final ImagePicker picker = ImagePicker();
 
   dynamic ambiente_aluno;
   List<dynamic>? lista_municipios;
@@ -36,50 +38,50 @@ class _SignUpState extends State<SignUp> {
     lista_municipios = await ambiente_aluno.getMunicipios();
   }
 
-  Future<void> pickCertidaoFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-    );
+  Future<void> pickCertidaoFile(
+      {ImagePickerCameraDelegateOptions options =
+          const ImagePickerCameraDelegateOptions()}) async {
+    final XFile? result = await picker.pickImage(source: ImageSource.camera);
 
     if (result != null) {
       setState(() {
-        certidaoFile = File(result.files.single.path!);
+        certidaoFile = File(result.path);
       });
     }
   }
 
-  Future<void> pickComprovanteResidenciaFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-    );
+  Future<void> pickComprovanteResidenciaFile(
+      {ImagePickerCameraDelegateOptions options =
+          const ImagePickerCameraDelegateOptions()}) async {
+    final XFile? result = await picker.pickImage(source: ImageSource.camera);
 
     if (result != null) {
       setState(() {
-        comprovanteResidenciaFile = File(result.files.single.path!);
+        comprovanteResidenciaFile = File(result.path);
       });
     }
   }
 
-  Future<void> pickFotoFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-    );
+  Future<void> pickFotoFile(
+      {ImagePickerCameraDelegateOptions options =
+          const ImagePickerCameraDelegateOptions()}) async {
+    final XFile? result = await picker.pickImage(source: ImageSource.camera);
 
     if (result != null) {
       setState(() {
-        fotoFile = File(result.files.single.path!);
+        fotoFile = File(result.path);
       });
     }
   }
 
-  Future<void> pickComprovanteMatriculaFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-    );
+  Future<void> pickComprovanteMatriculaFile(
+      {ImagePickerCameraDelegateOptions options =
+          const ImagePickerCameraDelegateOptions()}) async {
+    final XFile? result = await picker.pickImage(source: ImageSource.camera);
 
     if (result != null) {
       setState(() {
-        comprovanteMatriculaFile = File(result.files.single.path!);
+        comprovanteMatriculaFile = File(result.path);
       });
     }
   }

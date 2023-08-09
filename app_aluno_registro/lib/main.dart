@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
                     fontSize: MediaQuery.of(context).size.width * 0.03),
                 //Botoes de arquivos
                 headlineSmall: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width * 0.04,
+                    fontSize: MediaQuery.of(context).size.width * 0.03,
                     color: Colors.white),
                 //Utilizado em Erros em forma de texto
                 labelLarge: TextStyle(
