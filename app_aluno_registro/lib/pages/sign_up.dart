@@ -142,8 +142,8 @@ class _SignUpState extends State<SignUp> {
   dynamic dados_documentos;
 
   getControllerValues() async {
-    enviar = false;
     if (signUpStore.isValid) {
+      enviar = false;
       dados = {
         'numero_sere': signUpStore.numeroSere,
         'senha': signUpStore.senha,
@@ -201,6 +201,7 @@ class _SignUpState extends State<SignUp> {
         Common.displaySuccess(
             context, 'Sucesso!!', 'Você será redirecionado', true);
       }
+      enviar = true;
     } else {
       foi_tocado_senha = true;
       foi_tocado_nome = true;
@@ -218,7 +219,6 @@ class _SignUpState extends State<SignUp> {
       foi_tocado_cep = true;
       setState(() {});
     }
-    enviar = true;
   }
 
   @override
@@ -844,31 +844,33 @@ class _SignUpState extends State<SignUp> {
                     ),
                   ],
                 ),
-                ElevatedButton(
-                  onPressed: enviar == true
-                      ? () {
-                          getControllerValues();
-                        }
-                      : null,
-                  style: ElevatedButton.styleFrom(
-                    // ignore: deprecated_member_use
-                    primary: Theme.of(context).colorScheme.inversePrimary,
-                    // ignore: deprecated_member_use
-                    onPrimary: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                Observer(
+                  builder: (_) => ElevatedButton(
+                    onPressed: enviar == true
+                        ? () {
+                            getControllerValues();
+                          }
+                        : null,
+                    style: ElevatedButton.styleFrom(
+                      // ignore: deprecated_member_use
+                      primary: Theme.of(context).colorScheme.inversePrimary,
+                      // ignore: deprecated_member_use
+                      onPrimary: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                     ),
-                  ),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Center(
-                      child: Text(
-                        'Cadastre-se',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Center(
+                        child: Text(
+                          'Cadastre-se',
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),

@@ -19,6 +19,7 @@ class DocumentRenew extends StatefulWidget {
 class _DocumentRenewState extends State<DocumentRenew> {
   @override
   void initState() {
+    documentRenewStore.enviar = true;
     super.initState();
   }
 
@@ -39,7 +40,6 @@ class _DocumentRenewState extends State<DocumentRenew> {
   bool foi_tocado_comprovante_residencia = false;
   bool foi_tocado_foto = false;
   bool foi_tocado_comprovante_matricula = false;
-  bool enviar = true;
 
   Future<void> pickCertidaoFile(
       {ImagePickerCameraDelegateOptions options =
@@ -94,8 +94,9 @@ class _DocumentRenewState extends State<DocumentRenew> {
   }
 
   getControllerValues() async {
-    enviar = false;
     if (documentRenewStore.isValid) {
+      documentRenewStore.enviar = false;
+      setState(() {});
       dados = {
         'numero_sere': documentRenewStore.numeroSere,
         'foto': fotoFile?.path,
@@ -118,10 +119,15 @@ class _DocumentRenewState extends State<DocumentRenew> {
         Common.displaySuccess(context, 'Sucesso!',
             'Seus documentos foram enviados para revisão', true);
       }
+      documentRenewStore.enviar = true;
+      setState(() {});
     } else {
       setState(() {});
     }
-    enviar = true;
+  }
+
+  habilitaBotao() {
+    return documentRenewStore.enviar;
   }
 
   @override
@@ -317,7 +323,7 @@ class _DocumentRenewState extends State<DocumentRenew> {
                   ],
                 ),
                 ElevatedButton(
-                  onPressed: enviar == true
+                  onPressed: habilitaBotao()
                       ? () {
                           getControllerValues();
                         }
@@ -334,13 +340,15 @@ class _DocumentRenewState extends State<DocumentRenew> {
                   child: SizedBox(
                     width: double.infinity,
                     child: Center(
-                      child: Text(
-                        'Cadastrar',
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
+                      child: habilitaBotao()
+                          ? Text(
+                              'Cadastrar',
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            )
+                          : CircularProgressIndicator(),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),

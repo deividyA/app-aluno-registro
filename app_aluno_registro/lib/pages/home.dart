@@ -84,8 +84,6 @@ class _HomeState extends State<Home> {
   }
 
   pegaDadosAluno(token, numero_sere) async {
-    Common.displaySuccess(
-        context, 'Sucesso!!', 'Usuario Logado com Sucesso', false);
     dados = await aluno_repository.getAlunos(token, numero_sere);
     await prefs.setString('nome', dados[0]['nome']);
     await prefs.setString('escola', dados[0]['escola']);

@@ -60,6 +60,23 @@ class AmbienteAlunoRepository {
     }
   }
 
+  Future<dynamic> esqueceuSenha(Map<String, dynamic> dados) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$url_bzs_api' 'ste/forgot_password'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(dados),
+      );
+      if (response.statusCode != 200) {
+        return jsonDecode(response.body);
+      }
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
   Future<dynamic> renovaDocumentos(Map<String, dynamic> dados) async {
     try {
       var request = http.MultipartRequest(

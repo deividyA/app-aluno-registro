@@ -8,6 +8,9 @@ abstract class _DocumentRenewStore with Store {
   @observable
   String? numeroSere;
 
+  @observable
+  bool? enviar;
+
   @computed
   bool get isValid {
     return isNotEmpty(numeroSere);
