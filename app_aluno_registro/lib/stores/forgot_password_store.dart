@@ -12,6 +12,9 @@ abstract class _ForgotPasswordStore with Store {
   @observable
   String? email;
 
+  @observable
+  bool? enviar;
+
   @computed
   bool get isValid {
     return numeroSere != null && isNotEmpty(email);

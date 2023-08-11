@@ -15,6 +15,7 @@ class ForgotPassword extends StatefulWidget {
 class _ForgotPassword extends State<ForgotPassword> {
   @override
   void initState() {
+    forgotPasswordStore.enviar = true;
     super.initState();
   }
 
@@ -33,8 +34,9 @@ class _ForgotPassword extends State<ForgotPassword> {
   dynamic dados;
 
   getControllerValues() async {
-    enviar = false;
     if (forgotPasswordStore.isValid) {
+      forgotPasswordStore.enviar = false;
+      setState(() {});
       dados = {
         'numero_sere': forgotPasswordStore.numeroSere,
         'email': forgotPasswordStore.email,
@@ -54,11 +56,16 @@ class _ForgotPassword extends State<ForgotPassword> {
         Common.displaySuccess(
             context, 'Sucesso!!', 'Siga os passos no seu e-mail', true);
       }
+      forgotPasswordStore.enviar = true;
+      setState(() {});
     } else {
       foi_tocado_email = true;
       setState(() {});
     }
-    enviar = true;
+  }
+
+  habilitaBotao() {
+    return forgotPasswordStore.enviar;
   }
 
   @override
@@ -141,7 +148,7 @@ class _ForgotPassword extends State<ForgotPassword> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: enviar == true
+                  onPressed: habilitaBotao()
                       ? () {
                           getControllerValues();
                         }
@@ -158,13 +165,15 @@ class _ForgotPassword extends State<ForgotPassword> {
                   child: SizedBox(
                     width: double.infinity,
                     child: Center(
-                      child: Text(
-                        'Recuperar Senha',
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
+                      child: habilitaBotao()
+                          ? Text(
+                              'Cadastrar',
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            )
+                          : CircularProgressIndicator(),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),

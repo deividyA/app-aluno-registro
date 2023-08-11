@@ -8,6 +8,9 @@ class SignUpStore = _SignUpStore with _$SignUpStore;
 
 abstract class _SignUpStore with Store {
   @observable
+  bool? enviar;
+
+  @observable
   double? numeroSere;
 
   @observable

@@ -24,6 +24,7 @@ class _LoginState extends State<Login> {
 
   @override
   initState() {
+    login_store.enviar = true;
     initSharedPreferences();
     super.initState();
   }
@@ -44,8 +45,9 @@ class _LoginState extends State<Login> {
   List<dynamic> errorMessages = [];
 
   Future<void> getControllerValues() async {
-    enviar = false;
     if (login_store.isValid) {
+      login_store.enviar = false;
+      setState(() {});
       dados = {
         'numero_sere': login_store.numeroSere,
         'senha': login_store.senha,
@@ -73,11 +75,17 @@ class _LoginState extends State<Login> {
         errorMessages = [resposta];
         setState(() {});
       }
+      login_store.enviar = true;
+      setState(() {});
     } else {
       foi_tocado_senha = true;
       setState(() {});
     }
     enviar = true;
+  }
+
+  habilitaBotao() {
+    return login_store.enviar;
   }
 
   @override
@@ -226,7 +234,7 @@ class _LoginState extends State<Login> {
                         ),
                       ]),
                   ElevatedButton(
-                    onPressed: enviar == true
+                    onPressed: habilitaBotao()
                         ? () {
                             getControllerValues();
                           }
@@ -241,10 +249,12 @@ class _LoginState extends State<Login> {
                     child: SizedBox(
                       width: double.infinity,
                       child: Center(
-                        child: Text(
-                          'Login',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
+                        child: habilitaBotao()
+                            ? Text(
+                                'Cadastrar',
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              )
+                            : CircularProgressIndicator(),
                       ),
                     ),
                   ),

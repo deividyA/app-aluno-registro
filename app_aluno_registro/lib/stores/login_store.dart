@@ -12,6 +12,9 @@ abstract class _LoginStore with Store {
   @observable
   String? senha;
 
+  @observable
+  bool? enviar;
+
   @computed
   bool get isValid {
     return numeroSere != null && isNotEmpty(senha);

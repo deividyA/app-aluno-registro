@@ -22,6 +22,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   @override
   void initState() {
+    signUpStore.enviar = true;
     atribui_municipios();
     super.initState();
   }
@@ -143,7 +144,9 @@ class _SignUpState extends State<SignUp> {
 
   getControllerValues() async {
     if (signUpStore.isValid) {
-      enviar = false;
+      signUpStore.enviar = false;
+      setState(() {});
+
       dados = {
         'numero_sere': signUpStore.numeroSere,
         'senha': signUpStore.senha,
@@ -201,7 +204,8 @@ class _SignUpState extends State<SignUp> {
         Common.displaySuccess(
             context, 'Sucesso!!', 'Você será redirecionado', true);
       }
-      enviar = true;
+      signUpStore.enviar = true;
+      setState(() {});
     } else {
       foi_tocado_senha = true;
       foi_tocado_nome = true;
@@ -219,6 +223,10 @@ class _SignUpState extends State<SignUp> {
       foi_tocado_cep = true;
       setState(() {});
     }
+  }
+
+  habilitaBotao() {
+    return signUpStore.enviar;
   }
 
   @override
@@ -844,30 +852,30 @@ class _SignUpState extends State<SignUp> {
                     ),
                   ],
                 ),
-                Observer(
-                  builder: (_) => ElevatedButton(
-                    onPressed: enviar == true
-                        ? () {
-                            getControllerValues();
-                          }
-                        : null,
-                    style: ElevatedButton.styleFrom(
-                      // ignore: deprecated_member_use
-                      primary: Theme.of(context).colorScheme.inversePrimary,
-                      // ignore: deprecated_member_use
-                      onPrimary: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                ElevatedButton(
+                  onPressed: habilitaBotao()
+                      ? () {
+                          getControllerValues();
+                        }
+                      : null,
+                  style: ElevatedButton.styleFrom(
+                    // ignore: deprecated_member_use
+                    primary: Theme.of(context).colorScheme.inversePrimary,
+                    // ignore: deprecated_member_use
+                    onPrimary: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Center(
-                        child: Text(
-                          'Cadastre-se',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                      ),
+                  ),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: Center(
+                      child: habilitaBotao()
+                          ? Text(
+                              'Cadastre-se',
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            )
+                          : CircularProgressIndicator(),
                     ),
                   ),
                 ),

@@ -157,13 +157,9 @@ abstract class Common extends StatefulWidget {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => const Login()));
                       },
-                      child: const Text(
+                      child: Text(
                         "OK",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ),
                   ),
